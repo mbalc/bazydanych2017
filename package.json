@@ -1,0 +1,41 @@
+{
+  "name": "bazydanych2017",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "gatsby build"
+  },
+  "author": "Michał Balcerzak",
+  "license": "ISC",
+  "dependencies": {
+    "gatsby": "^1.9.108",
+    "gatsby-link": "^1.6.26"
+  },
+  "devDependencies": {
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.4.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mbalc/bazydanych2017.git"
+  },
+  "keywords": [
+    "volleyball",
+    "sql",
+    "database",
+    "turniej",
+    "siatkarski",
+    "siatkówka",
+    "bazy",
+    "danych",
+    "bazy_danych"
+  ],
+  "bugs": {
+    "url": "https://github.com/mbalc/bazydanych2017/issues"
+  },
+  "homepage": "https://github.com/mbalc/bazydanych2017#readme",
+  "description": ""
+}
