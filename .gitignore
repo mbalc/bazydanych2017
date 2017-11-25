@@ -1,2 +1,5 @@
 node_modules/*
 public/*
+.cache/*
+settings.json
+package-lock.json
