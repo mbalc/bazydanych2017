@@ -1,15 +1,13 @@
 import React from 'react';
+import { Panel, PageHeader } from 'react-bootstrap';
+import Navigator from './Navigator';
+import Contents from './LandingContents';
 
 export default () => (
-  <div>
-    There was
-    a HOLE
-        here.
-    <div />
-      Its gone now.
-    <div />
-    <div />
-      Tutaj niebawem będą się pojawiać rzeczy związane z najbliższym
-      projektem zaliczeniowym związanym z przedmiotem Bazy Danych.
-  </div>
+  <Panel>
+    <PageHeader>
+      Projekt zaliczeniowy <small> Bazy danych - turniej siatkarski </small>
+    </PageHeader>
+    <Navigator contents={Contents} />
+  </Panel>
 );
