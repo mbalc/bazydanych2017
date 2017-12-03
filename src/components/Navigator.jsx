@@ -1,40 +1,95 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Tab, Row, Col, Nav, NavItem } from 'react-bootstrap';
+import { Navbar, NavbarBrand, NavbarToggler, Nav, NavItem, Collapse, NavLink } from 'reactstrap';
+import './Navigator.css';
 
 class Navigator extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.toggle = this.toggle.bind(this);
+    this.collapse = this.collapse.bind(this);
+
+    this.state = {
+      isOpen: false,
+    };
   }
+
+  toggle() {
+    this.setState({
+      isOpen: !this.state.isOpen,
+    });
+  }
+
+  collapse() {
+    this.setState({
+      isOpen: false,
+    });
+  }
+
   render() {
-    console.log(this.props.contents);
-    const mapper = (obj, Comp, index, type) => obj.map((val, i) => (
-      <Comp eventKey={`navigator-event-${i}`} key={`navigator-${type}-${i}`}>
-        {val[index]}
-      </Comp>
+    const defaultView = (
+      <div id="main" className="content-page" key="default page">
+        Oto strona główna projektu Turniej siatkarski realizowanego w ramach przedmiotu Bazy Danych
+      </div>);
+
+    const switchers = this.props.contents.map((val, i) => (
+      <NavItem href="/google.com" key={`switcher no ${i}`}>
+        txt
+      </NavItem>
     ));
 
-    const switchers = mapper(this.props.contents, NavItem, 0, 'switcher');
-    const pages = mapper(this.props.contents, Tab.Pane, 1, 'page');
+    const pages = [defaultView];
+    pages.push(this.props.contents.map((val, i) => (
+      <div key={`page no ${i}`}>
+        <div className="content-page" id={`page${i}`}>
+          {val[1]}
+        </div>
+      </div>
+    )));
 
     return (
-      <Tab.Container id="left-tabs-example" defaultActiveKey="first">
-        <Row className="clearfix">
-          <Col sm={3}>
-            <Nav bsStyle="pills" stacked>
-              {switchers}
-            </Nav>
-          </Col>
-          <Col sm={9}>
-            <Tab.Content animation>
-              {pages}
-            </Tab.Content>
-
-          </Col>
-        </Row>
-      </Tab.Container>
+      <div className="main">
+        <div className="menu-navigator">
+          <Navbar color="dark" dark expand="md">
+            <NavbarBrand onClick={this.collapse} href="#main">Bazy danych</NavbarBrand>
+            <NavbarToggler onClick={this.toggle} />
+            <Collapse isOpen={this.state.isOpen} navbar>
+              <Nav className="ml-auto" navbar>
+                <NavItem>
+                  <NavLink onClick={this.collapse} href="#page0">Zadanie</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink onClick={this.collapse} href="#page1">Diagram encji</NavLink>
+                </NavItem>
+              </Nav>
+            </Collapse>
+          </Navbar>
+        </div>
+        <div className="contents-main-wrapper">
+          <div className="contents-main">
+            {pages}
+          </div>
+        </div>
+      </div>
     );
+
+    // return (
+    //   <Tab.Container id="left-tabs-example" defaultActiveKey="navigator-event-first">
+    //     <Row className="clearfix">
+    //       <Col sm={3}>
+    //         <Nav bsStyle="pills" stacked>
+    //           {switchers}
+    //         </Nav>
+    //       </Col>
+    //       <Col sm={9}>
+    //         <Tab.Content animation>
+    //           {pages}
+    //         </Tab.Content>
+
+    //       </Col>
+    //     </Row>
+    //   </Tab.Container>
+    // );
   }
 }
 
