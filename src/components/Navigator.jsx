@@ -28,8 +28,10 @@ class Navigator extends React.Component {
 
   render() {
     const defaultView = (
-      <div id="main" className="content-page" key="default page">
-        Oto strona główna projektu Turniej siatkarski realizowanego w ramach przedmiotu Bazy Danych
+      <div className="content-page-wrapper" id="main">
+        <div className="content-page">
+          Oto strona główna projektu Turniej siatkarski realizowanego w ramach przedmiotu Bazy Danych
+        </div>
       </div>);
 
     const switchers = this.props.contents.map((val, i) => (
@@ -40,8 +42,8 @@ class Navigator extends React.Component {
 
     const pages = [defaultView];
     pages.push(this.props.contents.map((val, i) => (
-      <div key={`page no ${i}`}>
-        <div className="content-page" id={`page${i}`}>
+      <div key={`page no ${i}`} className="content-page-wrapper" id={`page${i}`}>
+        <div className="content-page">
           {val[1]}
         </div>
       </div>

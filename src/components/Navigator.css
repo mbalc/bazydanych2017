@@ -21,11 +21,38 @@
 }
 
 .contents-main {
-  max-width: 940px;
-  margin: 0 auto;
 
 }
 
 .content-page {
-  padding: 60px;
+  padding: 40px;
+  height: calc(100vh - 54px);
+  max-width: 940px;
+  margin: 0 auto;
+}
+
+.content-page-wrapper {
+  position: relative;
+
+}
+
+#main {
+  background-image: -webkit-gradient(linear, left top, left bottom, from(lightblue), to(LightGoldenRodYellow ));
+  background-image: -webkit-linear-gradient(top, lightblue, LightGoldenRodYellow );
+  background-image: -moz-linear-gradient(top, lightblue, LightGoldenRodYellow );
+  background-image: linear-gradient(to bottom, lightblue, LightGoldenRodYellow );
+}
+
+#page0 {
+  background-image: -webkit-gradient(linear, left top, left bottom, from(LavenderBlush ), to(LightCyan ));
+  background-image: -webkit-linear-gradient(top, LavenderBlush , LightCyan );
+  background-image: -moz-linear-gradient(top, LavenderBlush , LightCyan );
+  background-image: linear-gradient(to bottom, LavenderBlush , LightCyan );
+}
+
+#page1 {
+  background-image: -webkit-gradient(linear, left top, left bottom, from(PowderBlue ), to(lightgreen));
+  background-image: -webkit-linear-gradient(top, PowderBlue , lightgreen);
+  background-image: -moz-linear-gradient(top, PowderBlue , lightgreen);
+  background-image: linear-gradient(to bottom, PowderBlue , lightgreen);;
 }

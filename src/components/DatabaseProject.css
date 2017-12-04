@@ -1,0 +1,18 @@
+.db-design {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+}
+
+.erd-diagram {
+  height: 100%;
+  width: 100%;
+}
+
+.erd-diagram-wrapper {
+  margin: 0 auto;
+  position: relative;
+  height: 1px;
+  width: 100%;
+  flex-grow: 1;
+}
