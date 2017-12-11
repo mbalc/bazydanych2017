@@ -73,7 +73,7 @@ ALTER TABLE "udzial" ADD CONSTRAINT "fk_udzial__mecz" FOREIGN KEY ("mecz") REFER
 ALTER TABLE "udzial" ADD CONSTRAINT "fk_udzial__sklad" FOREIGN KEY ("sklad") REFERENCES "sklad" ("id")
 `;
 
-const label = 'Skrypt';
+const label = 'Skrypt SQL';
 const content = (
   <div className="">
     <h2>Projekt bazy danych - skrypt SQL</h2>
