@@ -1,5 +1,4 @@
 import React from 'react';
-import fs from 'browserify-fs';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { Card, CardBody, CardText } from 'reactstrap';
 import { docco } from 'react-syntax-highlighter/styles/hljs';
