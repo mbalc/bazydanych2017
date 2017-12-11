@@ -28,14 +28,12 @@ class Navigator extends React.Component {
   }
 
   render() {
-    const switchers = this.props.contents.map((val, i) => (
-      <NavItem href="/google.com" key={`switcher no ${i}`}>
-        txt
-      </NavItem>
-    ));
+    const switchers = this.props.contents.reduce((acc, val, i) => (i < 1 ? acc : [...acc, (
+      <NavItem key={`switcher no ${i}`}>
+        <NavLink onClick={this.collapse} href={`#page${i}`}>{val[0]}</NavLink>
+      </NavItem>)]), []);
 
-    const pages = [];
-    pages.push(this.props.contents.map((val, i) => (
+    const pages = (this.props.contents.map((val, i) => (
       <div key={`page no ${i}`} className="content-page-wrapper" id={`page${i}`}>
         {val[1]}
       </div>
@@ -49,12 +47,7 @@ class Navigator extends React.Component {
             <NavbarToggler onClick={this.toggle} />
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className="ml-auto" navbar>
-                <NavItem>
-                  <NavLink onClick={this.collapse} href="#page1">Zadanie</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink onClick={this.collapse} href="#page2">Diagram encji</NavLink>
-                </NavItem>
+                {switchers}
               </Nav>
             </Collapse>
           </Navbar>
@@ -66,6 +59,17 @@ class Navigator extends React.Component {
         </div>
       </div>
     );
+
+
+    // <NavItem>
+    //   <NavLink onClick={this.collapse} href="#page1">Zadanie</NavLink>
+    // </NavItem>
+    // <NavItem>
+    //   <NavLink onClick={this.collapse} href="#page2">Diagram encji</NavLink>
+    // </NavItem>
+    // <NavItem>
+    //   <NavLink onClick={this.collapse} href="#page3">Diagram encji</NavLink>
+    // </NavItem>
 
     // return (
     //   <Tab.Container id="left-tabs-example" defaultActiveKey="navigator-event-first">

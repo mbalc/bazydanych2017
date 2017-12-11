@@ -12,7 +12,10 @@
   "license": "ISC",
   "dependencies": {
     "bootstrap": "^4.0.0-beta.2",
+    "browserify-fs": "^1.0.0",
     "eslint": "^4.11.0",
+    "file-system": "^2.2.2",
+    "fs": "0.0.1-security",
     "gatsby": "^1.9.108",
     "gatsby-link": "^1.6.26",
     "prop-types": "^15.6.0",

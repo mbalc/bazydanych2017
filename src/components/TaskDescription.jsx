@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, CardHeader, CardBody, CardText } from 'reactstrap';
+import { Card, CardBody, CardText } from 'reactstrap';
 import wrap from './Wrapper';
 import './TaskDescription.css';
 

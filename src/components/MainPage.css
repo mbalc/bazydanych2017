@@ -1,4 +1,4 @@
-.main-page .background {
+.main-page-default .background {
   filter: blur(3px);
   transform: scale(1.05);
   overflow: hidden;
@@ -7,7 +7,7 @@
   background-position: center;
 }
 
-.main-page .content-page {
+.main-page-default .content-page {
   color: white;
   font-family: Futura, "Trebuchet MS", Arial, sans-serif;
   font-weight: 300;

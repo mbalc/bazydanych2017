@@ -1,4 +1,4 @@
-.db-design {
+.dbproj .db-design {
   display: flex;
   height: 100%;
   color: white;
@@ -6,20 +6,20 @@
   flex-direction: column;
 }
 
-a {
+.dbproj a {
   color: lightcoral;
 }
 
-a:hover {
+.dbproj a:hover {
   color: red;
 }
 
-.erd-diagram {
+.dbproj .erd-diagram {
   height: 100%;
   width: 100%;
 }
 
-.erd-diagram-wrapper {
+.dbproj .erd-diagram-wrapper {
   margin: 0 auto;
   position: relative;
   height: 1px;
@@ -27,7 +27,7 @@ a:hover {
   flex-grow: 1;
 }
 
-h2 {
+.dbproj h2 {
   font-family: Courier New, Courier, monospace;
   color: white;
   text-align: center;

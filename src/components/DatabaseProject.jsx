@@ -3,10 +3,10 @@ import ERD from '../../resources/bd.svg';
 import wrap from './Wrapper';
 import './DatabaseProject.css';
 
-const label = 'Projekt bazy';
+const label = 'Diagram encji';
 const content = (
   <div className="db-design">
-    <div><h2>Projekt bazy danych - diagram encji</h2></div>
+    <h2>Projekt bazy danych - diagram encji</h2>
     <div className="erd-diagram-wrapper">
       <img className="erd-diagram" src={ERD} alt="Diagram bazy" />
     </div>
