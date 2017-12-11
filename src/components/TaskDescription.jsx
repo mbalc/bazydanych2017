@@ -7,14 +7,14 @@ const label = 'Zadanie';
 
 const content = (
   <div className="task-container">
+    <h1>Treść zadania</h1>
     <Card>
-      <CardHeader>Treść zadania</CardHeader>
       <CardBody>
         <CardText>
           <iframe
             style={{ fontFamily: '"Roboto", sans-serif' }}
             width="100%"
-            height="240px"
+            height="340px"
             title="description"
             frameBorder="0"
             src="http://students.mimuw.edu.pl/~zbyszek/bazy-danych/inf/siatkowka.html"

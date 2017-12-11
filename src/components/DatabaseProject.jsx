@@ -6,7 +6,7 @@ import './DatabaseProject.css';
 const label = 'Projekt bazy';
 const content = (
   <div className="db-design">
-    <div><h2>Szczegóły</h2></div>
+    <div><h2>Projekt bazy danych - diagram encji</h2></div>
     <div className="erd-diagram-wrapper">
       <img className="erd-diagram" src={ERD} alt="Diagram bazy" />
     </div>

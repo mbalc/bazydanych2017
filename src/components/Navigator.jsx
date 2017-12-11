@@ -1,7 +1,5 @@
 import React from 'react';
-import SyntaxHighlighter from 'react-syntax-highlighter';
 import PropTypes from 'prop-types';
-import { docco } from 'react-syntax-highlighter/styles/hljs';
 
 import { Navbar, NavbarBrand, NavbarToggler, Nav, NavItem, Collapse, NavLink } from 'reactstrap';
 import './Navigator.css';
@@ -30,23 +28,13 @@ class Navigator extends React.Component {
   }
 
   render() {
-    const codeString = '(num) => num + 1';
-    const defaultView = (
-      <div className="content-page-wrapper" key="main-page" id="main">
-        <div className="background" />
-        <div className="content-page">
-          Oto strona główna projektu <h1>Turniej siatkarski</h1> realizowanego w ramach przedmiotu <h1>Bazy Danych</h1>
-          <SyntaxHighlighter language="sql" style={docco}>{codeString}</SyntaxHighlighter>
-        </div>
-      </div>);
-
     const switchers = this.props.contents.map((val, i) => (
       <NavItem href="/google.com" key={`switcher no ${i}`}>
         txt
       </NavItem>
     ));
 
-    const pages = [defaultView];
+    const pages = [];
     pages.push(this.props.contents.map((val, i) => (
       <div key={`page no ${i}`} className="content-page-wrapper" id={`page${i}`}>
         {val[1]}
@@ -57,15 +45,15 @@ class Navigator extends React.Component {
       <div className="main">
         <div className="menu-navigator">
           <Navbar color="dark" dark expand="md">
-            <NavbarBrand onClick={this.collapse} href="#main">Bazy danych</NavbarBrand>
+            <NavbarBrand onClick={this.collapse} href="#page0">Bazy danych</NavbarBrand>
             <NavbarToggler onClick={this.toggle} />
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className="ml-auto" navbar>
                 <NavItem>
-                  <NavLink onClick={this.collapse} href="#page0">Zadanie</NavLink>
+                  <NavLink onClick={this.collapse} href="#page1">Zadanie</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink onClick={this.collapse} href="#page1">Diagram encji</NavLink>
+                  <NavLink onClick={this.collapse} href="#page2">Diagram encji</NavLink>
                 </NavItem>
               </Nav>
             </Collapse>

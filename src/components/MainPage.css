@@ -1,0 +1,16 @@
+.main-page .background {
+  filter: blur(3px);
+  transform: scale(1.05);
+  overflow: hidden;
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.1)), url(https://thumbs.dreamstime.com/b/family-playing-beach-volleyball-1316860.jpg);
+  background-size: cover;
+  background-position: center;
+}
+
+.main-page .content-page {
+  color: white;
+  font-family: Futura, "Trebuchet MS", Arial, sans-serif;
+  font-weight: 300;
+  font-style: italic;
+  font-size: 20px;
+}
