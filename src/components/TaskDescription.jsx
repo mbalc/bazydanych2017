@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card, CardHeader, CardBody, CardText } from 'reactstrap';
+import wrap from './Wrapper';
 import './TaskDescription.css';
 
 const label = 'Zadanie';
@@ -24,5 +25,5 @@ const content = (
   </div>
 );
 
-export default [label, content];
+export default [label, wrap(content, 'taskdesc')];
 

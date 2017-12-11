@@ -16,3 +16,10 @@
   width: 100%;
   flex-grow: 1;
 }
+
+.dbproj .background {
+  background-image: -webkit-gradient(linear, left top, left bottom, from(PowderBlue ), to(lightgreen));
+  background-image: -webkit-linear-gradient(top, PowderBlue , lightgreen);
+  background-image: -moz-linear-gradient(top, PowderBlue , lightgreen);
+  background-image: linear-gradient(to bottom, PowderBlue , lightgreen);;
+}

@@ -24,35 +24,31 @@
 
 }
 
-.content-page {
-  padding: 40px;
-  height: calc(100vh - 54px);
-  max-width: 940px;
-  margin: 0 auto;
-}
-
 .content-page-wrapper {
   position: relative;
-
+  overflow: hidden;
 }
 
-#main {
-  background-image: -webkit-gradient(linear, left top, left bottom, from(lightblue), to(LightGoldenRodYellow ));
-  background-image: -webkit-linear-gradient(top, lightblue, LightGoldenRodYellow );
-  background-image: -moz-linear-gradient(top, lightblue, LightGoldenRodYellow );
-  background-image: linear-gradient(to bottom, lightblue, LightGoldenRodYellow );
+#main .background {
+  filter: blur(3px);
+  transform: scale(1.05);
+  overflow: hidden;
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.1)), url(https://thumbs.dreamstime.com/b/family-playing-beach-volleyball-1316860.jpg);
+  background-size: cover;
+  background-position: center;
 }
 
-#page0 {
-  background-image: -webkit-gradient(linear, left top, left bottom, from(LavenderBlush ), to(LightCyan ));
-  background-image: -webkit-linear-gradient(top, LavenderBlush , LightCyan );
-  background-image: -moz-linear-gradient(top, LavenderBlush , LightCyan );
-  background-image: linear-gradient(to bottom, LavenderBlush , LightCyan );
+#main .content-page {
+  color: white;
+  font-family: Futura, "Trebuchet MS", Arial, sans-serif;
+  font-weight: 300;
+  font-style: italic;
+  font-size: 20px;
 }
 
-#page1 {
-  background-image: -webkit-gradient(linear, left top, left bottom, from(PowderBlue ), to(lightgreen));
-  background-image: -webkit-linear-gradient(top, PowderBlue , lightgreen);
-  background-image: -moz-linear-gradient(top, PowderBlue , lightgreen);
-  background-image: linear-gradient(to bottom, PowderBlue , lightgreen);;
+h1 {
+  margin: 33px;
+  text-align: center;
+  font-size: 55px;
+  font-weight: bold;
 }

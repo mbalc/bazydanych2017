@@ -1,5 +1,8 @@
 import React from 'react';
+import SyntaxHighlighter from 'react-syntax-highlighter';
 import PropTypes from 'prop-types';
+import { docco } from 'react-syntax-highlighter/styles/hljs';
+
 import { Navbar, NavbarBrand, NavbarToggler, Nav, NavItem, Collapse, NavLink } from 'reactstrap';
 import './Navigator.css';
 
@@ -27,10 +30,13 @@ class Navigator extends React.Component {
   }
 
   render() {
+    const codeString = '(num) => num + 1';
     const defaultView = (
-      <div className="content-page-wrapper" id="main">
+      <div className="content-page-wrapper" key="main-page" id="main">
+        <div className="background" />
         <div className="content-page">
-          Oto strona główna projektu Turniej siatkarski realizowanego w ramach przedmiotu Bazy Danych
+          Oto strona główna projektu <h1>Turniej siatkarski</h1> realizowanego w ramach przedmiotu <h1>Bazy Danych</h1>
+          <SyntaxHighlighter language="sql" style={docco}>{codeString}</SyntaxHighlighter>
         </div>
       </div>);
 
@@ -43,9 +49,7 @@ class Navigator extends React.Component {
     const pages = [defaultView];
     pages.push(this.props.contents.map((val, i) => (
       <div key={`page no ${i}`} className="content-page-wrapper" id={`page${i}`}>
-        <div className="content-page">
-          {val[1]}
-        </div>
+        {val[1]}
       </div>
     )));
 

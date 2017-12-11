@@ -1,5 +1,6 @@
 import React from 'react';
 import ERD from '../../resources/bd.svg';
+import wrap from './Wrapper';
 import './DatabaseProject.css';
 
 const label = 'Projekt bazy';
@@ -18,5 +19,5 @@ const content = (
     </div>
   </div>
 );
-export default [label, content];
+export default [label, wrap(content, 'dbproj')];
 

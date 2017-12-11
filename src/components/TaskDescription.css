@@ -5,3 +5,10 @@
 iframe {
   font-family: "Roboto", sans-serif;
 }
+
+.taskdesc .background {
+  background-image: -webkit-gradient(linear, left top, left bottom, from(LavenderBlush ), to(LightCyan ));
+  background-image: -webkit-linear-gradient(top, LavenderBlush , LightCyan );
+  background-image: -moz-linear-gradient(top, LavenderBlush , LightCyan );
+  background-image: linear-gradient(to bottom, LavenderBlush , LightCyan );
+}

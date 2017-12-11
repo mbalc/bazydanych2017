@@ -3,3 +3,4 @@ public/*
 .cache/*
 settings.json
 package-lock.json
+.vscode/*
