@@ -1,0 +1,27 @@
+.main-container {
+  background: lightblue;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+.main-container-wrapper {
+  position: relative;
+}
+
+.sidebar-nav {
+  background: darkcyan;
+  position: fixed;
+  height: 100%;
+  width: 200px;
+  top: 0;
+  padding: 16px;
+  z-index: 2;
+}
+
+.main-content {
+  width: calc(100% - 200px);
+  height: 100%;
+  margin-left: 200px;
+  overflow-y: scroll;
+}

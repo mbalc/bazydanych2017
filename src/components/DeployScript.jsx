@@ -14,7 +14,7 @@ const content = (
     </SyntaxHighlighter>
     <div className="db-deploy-footer">
       <a href="https://editor.ponyorm.com/user/mbalc/bd/postgres">Źródło</a>
-      <p /><a href="/~mb385130/bd/projekt2017/static/deploy.sql">Plik SQL</a>
+      <p /><a href="static/deploy.sql">Plik SQL</a>
       <p />
       <small>
         Skrypt wygenerowany za pomocą <a href="https://editor.ponyorm.com">edytora Pony ORM</a>
