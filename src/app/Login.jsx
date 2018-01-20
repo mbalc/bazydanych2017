@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Button } from 'reactstrap';
 import Subsite from '../subsite';
 
-export default props => (
+const Login = props => (
   <div>
     <Button
       color="warning"
@@ -15,3 +16,11 @@ export default props => (
     </Button>
   </div>
 );
+
+Login.propTypes = {
+  package: PropTypes.shape({
+    changeStatus: PropTypes.func,
+  }).isRequired,
+};
+
+export default Login;

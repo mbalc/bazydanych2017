@@ -28,12 +28,12 @@ class TeamList extends React.Component {
 
     return (
       <div className="list-container-wrapper">
+        <div className="refresh-button-wrapper">
+          <Button onClick={this.updateContent} color="success" size="sm">
+            Odśwież
+          </Button>
+        </div>
         <div className="list-container">
-          <div className="refresh-button-wrapper">
-            <Button onClick={this.updateContent} color="success" size="sm">
-              Odśwież
-            </Button>
-          </div>
           <Table hover responsive bordered size="sm">
             <thead>
               <tr>

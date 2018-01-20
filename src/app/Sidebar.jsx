@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { ButtonGroup, Button } from 'reactstrap';
 import Subsite from '../subsite';
 
-export default (props) => {
+const Sidebar = (props) => {
   const change = siteCode => () => props.package.changeStatus({ activeSite: siteCode });
   const loginStatus = props.package.authenticated ? 5 : 4;
   const labels = ['Start', 'Drużyny', 'Gracze', 'Mecze', 'Zaloguj', 'Wyloguj'];
@@ -20,3 +21,12 @@ export default (props) => {
     </ButtonGroup>
   );
 };
+
+Sidebar.propTypes = {
+  package: PropTypes.shape({
+    authenticated: PropTypes.bool,
+    activeSite: PropTypes.number,
+  }).isRequired,
+};
+
+export default Sidebar;

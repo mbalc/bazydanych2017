@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Subsite from '../subsite';
 
 class Logout extends React.Component {
@@ -9,8 +10,14 @@ class Logout extends React.Component {
     });
   }
   render() {
-    return "Wylogowano!";
+    return 'Wylogowano!';
   }
 }
+
+Logout.propTypes = {
+  package: PropTypes.shape({
+    changeStatus: PropTypes.func,
+  }).isRequired,
+};
 
 export default Logout;

@@ -10,7 +10,6 @@ import '../../css/bootstrap.min.css';
 import './app.css';
 
 function findComponent(state) {
-  console.log('state:', state);
   switch (state) {
     case Subsite.TEAMS: return Teams;
     case Subsite.AUTHED: return Authed;
@@ -20,7 +19,6 @@ function findComponent(state) {
     default: return Landing;
   }
 }
-
 
 class app extends React.Component {
   constructor(props) {
@@ -35,7 +33,6 @@ class app extends React.Component {
 
   getComponent() {
     const Elem = findComponent(this.state.activeSite);
-    console.log(Elem);
     return <Elem package={this.state} />;
   }
 
