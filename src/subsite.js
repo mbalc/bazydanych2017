@@ -6,4 +6,5 @@ export default ({
   LOGIN: 4,
   LOGOUT: 5,
   AUTHED: 6,
+  TEAM_VIEW: 7,
 });

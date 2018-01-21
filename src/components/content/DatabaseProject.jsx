@@ -1,5 +1,5 @@
 import React from 'react';
-import ERD from '../../resources/bd.svg';
+import ERD from '../../../resources/bd.svg';
 import wrap from './Wrapper';
 import './DatabaseProject.css';
 

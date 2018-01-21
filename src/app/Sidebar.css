@@ -1,0 +1,27 @@
+.volleyball-icon {
+  margin: 0 0 30px 6px;
+}
+
+.sidebar-wrapper {
+  text-align: center;
+}
+
+.btn-group-vertical .btn {
+  text-align: left;
+  border-style: none;
+}
+
+.btn-group-vertical .btn-primary {
+  padding-left: 8px;
+}
+
+.btn-group-vertical .btn-secondary {
+  padding-right: 8px;
+  background: darkcyan;
+}
+
+.btn-group-vertical .btn-secondary:hover{
+  padding-left: 12px;
+  padding-right: 12px;
+  background: cyan;
+}
