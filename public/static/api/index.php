@@ -1,0 +1,3 @@
+<?php
+  //hide api structure
+?>
