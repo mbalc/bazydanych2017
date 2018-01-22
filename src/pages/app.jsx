@@ -1,5 +1,6 @@
 import React from 'react';
-import request from 'superagent';
+import request from 'axios';
+import moment from 'moment';
 
 import Landing from '../app/Landing';
 import Authed from '../app/Authed';
@@ -26,7 +27,24 @@ function findComponent(state) {
   }
 }
 
-const defaultContent = [{ 'Proszę czekać': 'Pobieram dane...' }];
+const defaultContent = { 0: { 'Proszę czekać': 'Pobieram dane...' } };
+const errorContent = (err) => {
+  console.error(err);
+  return {
+    0: {
+      'Wystąpił błąd': 'Możesz spróbować odwieżyć stronę',
+      'Szczegóły błędu': `${err.toString()}\nWięcej szczegółów znajduje się w konsoli developera`,
+    },
+  };
+};
+
+function reindex(array) {
+  return array.reduce((acc, val) => {
+    if (val.id) acc[0] = val;
+    else acc[0] = val;
+    return acc;
+  }, {});
+}
 
 class app extends React.Component {
   constructor(props) {
@@ -34,25 +52,31 @@ class app extends React.Component {
 
     this.state = {
       activeSite: 0,
-      teams: [],
-      players: [],
+      teams: {},
+      players: {},
+      lastUpdate: moment(Date.parse('Mon Jan 22 2018 14:50:57 GMT+0100')),
       fetchAll: () => {
         this.setState({
           teams: defaultContent,
           players: defaultContent,
+          lastUpdate: moment(Date.now()),
         });
 
         request
           .get(API.GET_TEAMS)
-          .accept('json')
           .then((res) => {
-            this.setState({ teams: res.body });
+            this.setState({ teams: reindex(res.data) });
+          })
+          .catch((err) => {
+            this.setState({ teams: errorContent(err) });
           });
         request
           .get(API.GET_PLAYERS)
-          .accept('json')
           .then((res) => {
-            this.setState({ players: res.body });
+            this.setState({ players: reindex(res.data) });
+          })
+          .catch((err) => {
+            this.setState({ players: errorContent(err) });
           });
       },
       authenticated: false,

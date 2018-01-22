@@ -6,6 +6,13 @@
   text-align: center;
 }
 
+.refresh-button-wrapper {
+  text-align: right;
+  bottom: 0;
+  right: 12px;
+  position: absolute;
+}
+
 .btn-group-vertical .btn {
   text-align: left;
   border-style: none;

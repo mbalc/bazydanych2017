@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import { ButtonGroup, Button } from 'reactstrap';
 import Subsite from '../subsite';
 import './Sidebar.css';
@@ -29,7 +30,15 @@ const Sidebar = (props) => {
       <ButtonGroup vertical>
         {list}
       </ButtonGroup>
-
+      <div className="refresh-button-wrapper">
+        <Button onClick={props.package.fetchAll} color="success" size="sm">
+          Aktualizuj
+        </Button>
+        <br />
+        Ostatnia aktualizacja:
+        <br />
+        {props.package.lastUpdate.format('D MMM YYYY, HH:mm:ss')}
+      </div>
     </div>
   );
 };
@@ -38,6 +47,8 @@ Sidebar.propTypes = {
   package: PropTypes.shape({
     authenticated: PropTypes.bool,
     activeSite: PropTypes.number,
+    fetchAll: PropTypes.func,
+    lastUpdate: PropTypes.instanceOf(moment),
   }).isRequired,
 };
 

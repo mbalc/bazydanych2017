@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import request from 'superagent';
+import request from 'axios';
 import { Button, Table } from 'reactstrap';
 import './List.css';
 
