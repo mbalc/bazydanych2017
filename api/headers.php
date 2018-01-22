@@ -1,5 +1,5 @@
 <?php
-  include 'creds.php';
+  include 'config.php';
 
   header("Access-Control-Allow-Origin: *");
   header('Content-type: application/json');
@@ -7,5 +7,5 @@
   //<html>
   //<title>Drużyny</title>
   //<body>
-  $link = pg_connect("host=labdb dbname=bd user='$db_username' password='$db_password'");
+  $link = pg_connect($db_config);
 ?>

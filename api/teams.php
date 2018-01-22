@@ -5,6 +5,4 @@
 
   $resultArray = pg_fetch_all($wynik);
   echo json_encode($resultArray);
-  //</body>
-  //</html>
 ?>

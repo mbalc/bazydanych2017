@@ -3,6 +3,5 @@ node_modules/*
 settings.json
 package-lock.json
 .vscode/*
-
+config.php
 public/*
-!public/static
