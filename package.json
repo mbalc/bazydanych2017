@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npm install && cp ./config.php ./api && cp -r ./api ./public/static && cp ./deploy.sql ./public/static && gatsby build --prefix-paths && rm -rf ~/public_html/bd/projekt2017/* && mv public/* ~/public_html/bd/projekt2017",
+    "build": "./build",
     "dev": "gatsby develop",
     "serve": "gatsby serve"
   },

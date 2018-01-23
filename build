@@ -1,0 +1,33 @@
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+
+
+printf "\n${RED}mkdir ./public${NC} :::\n"
+mkdir ./public 
+
+printf "\n${RED}mkdir ./public/static${NC} :::\n"
+mkdir ./public/static 
+
+
+printf "\n${RED}cp ./config.php ./api${NC} :::\n"
+cp ./config.php ./api 
+
+printf "\n${RED}cp -r ./api ./public/static${NC} :::\n"
+cp -r ./api ./public/static 
+
+printf "\n${RED}cp ./deploy.sql ./public/static${NC} :::\n"
+cp ./deploy.sql ./public/static 
+
+
+printf "\n${RED}npm install${NC} :::\n"
+npm install 
+
+printf "\n${RED}gatsby build --prefix-paths${NC} :::\n"
+gatsby build --prefix-paths 
+
+
+printf "\n${RED}rm -rf ~/public_html/bd/projekt2017/*${NC} :::\n"
+rm -rf ~/public_html/bd/projekt2017/* 
+
+printf "\n${RED}mv public/* ~/public_html/bd/projekt2017${NC} :::\n"
+mv public/* ~/public_html/bd/projekt2017
