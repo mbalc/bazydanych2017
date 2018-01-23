@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Form, Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 class ModalBase extends React.Component {
   constructor(props) {
@@ -29,14 +29,18 @@ class ModalBase extends React.Component {
       <div>
         <Button color="danger" onClick={this.toggle}>{this.props.buttonLabel}</Button>
         <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-          <ModalHeader toggle={this.toggle}>Modal title</ModalHeader>
-          <ModalBody>
-            {React.cloneElement(this.props.children, { onSubmit: (e) => { e.preventDefault(); this.submit(); } })}
-          </ModalBody>
-          <ModalFooter>
-            <Button color="primary" onClick={this.submit}>Do Something</Button>{' '}
-            <Button color="secondary" onClick={this.toggle}>Cancel</Button>
-          </ModalFooter>
+          <ModalHeader toggle={this.toggle}>{this.props.buttonLabel}</ModalHeader>
+          <Form onSubmit={(e) => { e.preventDefault(); this.submit(); console.warn(e.target); }}>
+            <ModalBody>
+              {this.props.children}
+            </ModalBody>
+            <ModalFooter>
+              {/* <Button color="primary" onClick={this.submit}>Dodaj</Button>{' '} */}
+              <Button color="primary" type="submit">Dodaj</Button>{' '}
+
+              <Button color="secondary" onClick={this.toggle}>Anuluj</Button>
+            </ModalFooter>
+          </Form>
         </Modal>
       </div>
     );

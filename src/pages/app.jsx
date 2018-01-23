@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unused-state */
 import React from 'react';
 import request from 'axios';
 import moment from 'moment';
@@ -5,6 +6,7 @@ import moment from 'moment';
 import Landing from '../app/Landing';
 import Authed from '../app/Authed';
 import Login from '../app/Login';
+import Players from '../app/PlayerList';
 import Teams from '../app/TeamList';
 import TeamView from '../app/TeamView';
 import Logout from '../app/Logout';
@@ -19,6 +21,7 @@ import './app.css';
 function findComponent(state) {
   switch (state) {
     case Subsite.TEAMS: return Teams;
+    case Subsite.PLAYERS: return Players;
     case Subsite.AUTHED: return Authed;
     case Subsite.LOGIN: return Login;
     case Subsite.LOGOUT: return Logout;
@@ -39,46 +42,28 @@ const errorContent = (err) => {
 };
 
 function reindex(array) {
+  if (!array) return ({});
   return array.reduce((acc, val) => {
-    if (val.id) acc[0] = val;
+    if (val.id) acc[val.id] = val;
     else acc[0] = val;
     return acc;
   }, {});
 }
 
+const getMoment = date => moment(date).format('D MMM YYYY, HH:mm:ss');
+
+
 class app extends React.Component {
   constructor(props) {
     super(props);
+    this.fetchAll = this.fetchAll.bind(this);
 
     this.state = {
       activeSite: 0,
       teams: {},
       players: {},
-      lastUpdate: moment(Date.parse('Mon Jan 22 2018 14:50:57 GMT+0100')),
-      fetchAll: () => {
-        this.setState({
-          teams: defaultContent,
-          players: defaultContent,
-          lastUpdate: moment(Date.now()),
-        });
-
-        request
-          .get(API.GET_TEAMS)
-          .then((res) => {
-            this.setState({ teams: reindex(res.data) });
-          })
-          .catch((err) => {
-            this.setState({ teams: errorContent(err) });
-          });
-        request
-          .get(API.GET_PLAYERS)
-          .then((res) => {
-            this.setState({ players: reindex(res.data) });
-          })
-          .catch((err) => {
-            this.setState({ players: errorContent(err) });
-          });
-      },
+      lastUpdate: getMoment(Date.parse('Jan 01 1999 00:00:57 GMT+0100')),
+      fetchAll: this.fetchAll,
       authenticated: false,
       changeStatus: newState => this.setState(() => newState),
     };
@@ -92,6 +77,30 @@ class app extends React.Component {
     const Elem = findComponent(this.state.activeSite);
     return <Elem package={this.state} />;
   }
+
+  fetchAll() {
+    this.setState({
+      teams: defaultContent,
+      players: defaultContent,
+      lastUpdate: getMoment(Date.now()),
+    });
+
+    this.makeRequest(API.GET_TEAMS, 'teams');
+    this.makeRequest(API.GET_PLAYERS, 'players');
+  }
+
+  makeRequest(endpoint, storage) {
+    request
+      .get(endpoint)
+      .then((res) => {
+        console.log('dex', reindex(res.data));
+        this.setState({ [storage]: reindex(res.data) });
+      })
+      .catch((err) => {
+        this.setState({ [storage]: errorContent(err), lastUpdate: err.toString() });
+      });
+  }
+
 
   render() {
     return (

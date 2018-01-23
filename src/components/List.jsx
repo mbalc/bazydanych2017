@@ -25,7 +25,7 @@ class List extends React.Component {
 
     const content = Object.keys(input).map(dx => (
       <tr onClick={() => this.props.setter(dx)} key={`listRow-${dx}`}>
-        <th>{dx}</th>
+        <th>{input[dx].id || null}</th>
         {keys.map((key, j) => (
           <td key={`listRow-${dx}-el-${j}`}>
             {stringToHtml(input[dx][key])}
@@ -36,7 +36,7 @@ class List extends React.Component {
     return (
       <div className="list-container-wrapper">
         <div className="list-container">
-          <Table hover responsive bordered size="sm">
+          <Table hover responsive bordered size="sm" striped>
             <thead>
               <tr>
                 {heads}

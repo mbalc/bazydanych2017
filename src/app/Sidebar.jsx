@@ -1,21 +1,41 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+import request from 'axios';
 import { ButtonGroup, Button } from 'reactstrap';
+import API from '../apiPathConfig';
 import Subsite from '../subsite';
 import './Sidebar.css';
 
+const publics = [0, 1, 2, 3, 4];
+const protecs = [0, 1, 2, 3, 5];
+
+const resetEverything = props => () => {
+  request.get(API.RESET)
+    .then(() => props.package.fetchAll())
+    .catch(e => props.package.changeStatus({ lastUpdate: e.toString() }));
+};
+
 const Sidebar = (props) => {
   const change = siteCode => () => props.package.changeStatus({ activeSite: siteCode });
-  const loginStatus = props.package.authenticated ? 5 : 4;
-  const labels = ['Start', 'Drużyny', 'Gracze', 'Mecze', 'Zaloguj', 'Wyloguj'];
-  const buttons = Object.keys(Subsite).map((key, i) => {
+  const buttons = Object.keys(Subsite).filter(el => el !== 'labels').map((key, i) => {
     let color = 'secondary';
     if (props.package.activeSite === Subsite[key]) color = 'primary';
-    return (<Button color={color} key={`sidebar-nav-button-${i}`} onClick={change(Subsite[key])}>{labels[i]}</Button>);
+    return (<Button color={color} key={`sidebar-nav-button-${i}`} onClick={change(Subsite[key])}>{Subsite.labels[i]}</Button>);
   });
-  const list = buttons.slice(0, 3);
-  list.push(buttons[loginStatus]);
+
+  const access = props.package.authenticated ? protecs : publics;
+  const list = access.map(elem => buttons[elem]);
+
+  const organizationButtons = props.package.authenticated ? (
+    <div>
+      <Button onClick={resetEverything(props)} color="danger" size="sm">
+        Reset danych
+      </Button>
+      <Button onClick={props.package.fetchAll} color="warning" size="sm">
+        Zamknij zgłoszenia
+      </Button>
+    </div>
+  ) : null;
 
   return (
     <div className="sidebar-wrapper">
@@ -35,9 +55,10 @@ const Sidebar = (props) => {
           Aktualizuj
         </Button>
         <br />
+        {organizationButtons}
         Ostatnia aktualizacja:
         <br />
-        {props.package.lastUpdate.format('D MMM YYYY, HH:mm:ss')}
+        {props.package.lastUpdate}
       </div>
     </div>
   );
@@ -47,8 +68,9 @@ Sidebar.propTypes = {
   package: PropTypes.shape({
     authenticated: PropTypes.bool,
     activeSite: PropTypes.number,
+    changeStatus: PropTypes.func,
     fetchAll: PropTypes.func,
-    lastUpdate: PropTypes.instanceOf(moment),
+    lastUpdate: PropTypes.string,
   }).isRequired,
 };
 

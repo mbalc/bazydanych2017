@@ -5,6 +5,10 @@
   width: 100%;
 }
 
+.horizontal-separator {
+  height: 46px;
+}
+
 .main-container-wrapper {
   position: relative;
 }

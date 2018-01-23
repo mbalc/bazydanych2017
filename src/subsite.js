@@ -1,4 +1,12 @@
 export default ({
+  labels: {
+    0: 'Start',
+    1: 'Drużyny',
+    2: 'Gracze',
+    3: 'Mecze',
+    4: 'Zaloguj',
+    5: 'Wyloguj',
+  },
   LANDING: 0,
   TEAMS: 1,
   PLAYERS: 2,

@@ -6,6 +6,14 @@
   text-align: center;
 }
 
+.refresh-button-wrapper > .btn {
+  margin-bottom: 10px;
+}
+
+.refresh-button-wrapper > * > .btn {
+  margin-bottom: 10px;
+}
+
 .refresh-button-wrapper {
   text-align: right;
   bottom: 0;

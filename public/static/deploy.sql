@@ -7,39 +7,23 @@ DROP TABLE IF EXISTS "czlonek" CASCADE;
 DROP TABLE IF EXISTS "udzial" CASCADE;
 DROP TABLE IF EXISTS "set" CASCADE;
 
+
+
 CREATE TABLE "druzyna" (
-  "id" SERIAL CONSTRAINT "pk_druzyna" PRIMARY KEY
+  "id" SERIAL CONSTRAINT "pk_druzyna" PRIMARY KEY,
+  "nazwa" TEXT NOT NULL
 );
 
 CREATE TABLE "gracz" (
   "id" SERIAL CONSTRAINT "pk_gracz" PRIMARY KEY,
+  "imie" TEXT NOT NULL,
+  "nazwisko" TEXT NOT NULL,
   "druzyna" INTEGER NOT NULL
 );
 
 CREATE INDEX "idx_gracz__druzyna" ON "gracz" ("druzyna");
 
 ALTER TABLE "gracz" ADD CONSTRAINT "fk_gracz__druzyna" FOREIGN KEY ("druzyna") REFERENCES "druzyna" ("id");
-
-CREATE TABLE "mecz" (
-  "id" SERIAL CONSTRAINT "pk_mecz" PRIMARY KEY
-);
-
-CREATE TABLE "organizator" (
-  "login" TEXT CONSTRAINT "pk_organizator" PRIMARY KEY,
-  "salt" TEXT NOT NULL,
-  "hash" TEXT NOT NULL
-);
-
-CREATE TABLE "set" (
-  "id" SERIAL CONSTRAINT "pk_set" PRIMARY KEY,
-  "mecz" INTEGER NOT NULL,
-  "punktygosci" SMALLINT NOT NULL,
-  "punktygospodarzy" SMALLINT NOT NULL
-);
-
-CREATE INDEX "idx_set__mecz" ON "set" ("mecz");
-
-ALTER TABLE "set" ADD CONSTRAINT "fk_set__mecz" FOREIGN KEY ("mecz") REFERENCES "mecz" ("id");
 
 CREATE TABLE "sklad" (
   "id" SERIAL CONSTRAINT "pk_sklad" PRIMARY KEY,
@@ -62,16 +46,27 @@ ALTER TABLE "czlonek" ADD CONSTRAINT "fk_czlonek__gracz" FOREIGN KEY ("gracz") R
 
 ALTER TABLE "czlonek" ADD CONSTRAINT "fk_czlonek__sklad" FOREIGN KEY ("sklad") REFERENCES "sklad" ("id");
 
-CREATE TABLE "udzial" (
-  "sklad" INTEGER NOT NULL,
-  "mecz" INTEGER NOT NULL,
-  CONSTRAINT "pk_udzial" PRIMARY KEY ("sklad", "mecz")
+CREATE TABLE "mecz" (
+  "id" SERIAL CONSTRAINT "pk_mecz" PRIMARY KEY,
+  "skladgosci" INTEGER NOT NULL,
+  "skladgospodarzy" INTEGER NOT NULL
 );
 
-CREATE INDEX "idx_udzial__mecz" ON "udzial" ("mecz");
+CREATE INDEX "idx_mecz__skladgosci" ON "mecz" ("skladgosci");
 
-ALTER TABLE "udzial" ADD CONSTRAINT "fk_udzial__mecz" FOREIGN KEY ("mecz") REFERENCES "mecz" ("id");
+CREATE INDEX "idx_mecz__skladgospodarzy" ON "mecz" ("skladgospodarzy");
 
-ALTER TABLE "udzial" ADD CONSTRAINT "fk_udzial__sklad" FOREIGN KEY ("sklad") REFERENCES "sklad" ("id")
+ALTER TABLE "mecz" ADD CONSTRAINT "fk_mecz__skladgosci" FOREIGN KEY ("skladgosci") REFERENCES "sklad" ("id");
 
+ALTER TABLE "mecz" ADD CONSTRAINT "fk_mecz__skladgospodarzy" FOREIGN KEY ("skladgospodarzy") REFERENCES "sklad" ("id");
 
+CREATE TABLE "set" (
+  "id" SERIAL CONSTRAINT "pk_set" PRIMARY KEY,
+  "mecz" INTEGER NOT NULL,
+  "punktygosci" SMALLINT NOT NULL,
+  "punktygospodarzy" SMALLINT NOT NULL
+);
+
+CREATE INDEX "idx_set__mecz" ON "set" ("mecz");
+
+ALTER TABLE "set" ADD CONSTRAINT "fk_set__mecz" FOREIGN KEY ("mecz") REFERENCES "mecz" ("id")
