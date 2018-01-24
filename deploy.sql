@@ -8,6 +8,8 @@ DROP TABLE IF EXISTS "udzial" CASCADE;
 DROP TABLE IF EXISTS "set" CASCADE;
 DROP TABLE IF EXISTS "termin" CASCADE;
 
+DROP VIEW IF EXISTS widok_meczy;
+
 
 
 
@@ -79,8 +81,19 @@ CREATE TABLE "termin" (
 );
 
 
+CREATE VIEW widok_meczy 
+  AS SELECT
+    t.id,
+    t1.druzyna AS gospodarze,
+    t2.druzyna AS goście,
+    (SELECT COUNT(*) FROM set) as sety
+  FROM mecz t 
+    JOIN sklad t1 ON t.skladGospodarzy=t1.id
+    JOIN sklad t2 ON t.skladGosci=t2.id; 
 
 INSERT INTO termin (termin) VALUES ('5432-01-24 00:31:59');
+
+ALTER TABLE mecz ADD CHECK (skladGosci != skladGospodarzy);
 
 CREATE OR REPLACE FUNCTION blokuj_zgloszenia()
 RETURNS trigger AS $$

@@ -49,6 +49,7 @@ const TeamView = (props) => {
       <div className="button-bar-wrapper">
         <div>
           <h3>Mecze:</h3>
+          <List content={props.package.teamGames} setter={setter} />
         </div>
         <div>
           <h3>Członkowie:</h3>
@@ -62,6 +63,7 @@ const TeamView = (props) => {
 TeamView.propTypes = {
   package: PropTypes.shape({
     teams: PropTypes.objectOf(PropTypes.objectOf(PropTypes.string)),
+    teamGames: PropTypes.objectOf(PropTypes.objectOf(PropTypes.string)),
     members: PropTypes.objectOf(PropTypes.objectOf(PropTypes.string)),
     selTeam: PropTypes.string,
     authenticated: PropTypes.bool,

@@ -1,8 +1,7 @@
 import React from 'react';
 import { FormGroup, Label, Input } from 'reactstrap';
 import PropTypes from 'prop-types';
-import request from 'axios';
-import { checkDeadline } from '../../util';
+import { checkDeadline, post } from '../../util';
 import API from '../../apiPathConfig';
 import ModalBase from './ModalBase';
 
@@ -27,13 +26,7 @@ class AddTeam extends React.Component {
   }
 
   handleSubmit() {
-    request.post(API.ADD_TEAM, JSON.stringify(this.state))
-      .then(() => {
-        console.log('success');
-        this.setState(defaultState);
-        this.props.package.fetchAll();
-      })
-      .catch(e => console.error('submit error:', e));
+    post(API.ADD_TEAM, this, defaultState);
   }
 
   render() {

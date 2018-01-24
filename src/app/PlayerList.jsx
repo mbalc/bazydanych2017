@@ -2,20 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import List from '../components/List';
 import Subsite from '../subsite';
-import { teamsExist } from '../util';
+import { teamsExist, objMap, teamName } from '../util';
 import AddPlayer from '../components/modals/AddPlayer';
 
-const process = (pack, props) => {
-  const { players, teams } = props.package;
+const process = (props) => {
+  const { players } = props.package;
   const exampleElem = players[Object.keys(players)[0]];
   if (!exampleElem || !exampleElem.druzyna || !teamsExist(props)) return players;
-  const out = {};
-  Object.keys(players).forEach((key) => {
-    out[key] = Object.assign({}, players[key]); // copy
-    const teamId = players[key].druzyna;
-    out[key].druzyna = `${teamId}. ${teams[teamId].nazwa}`;
-  });
-  return out;
+  return objMap(players, el => Object.assign({}, el, { druzyna: teamName(props, el.druzyna) }));
 };
 
 const PlayerList = (props) => {
@@ -27,7 +21,7 @@ const PlayerList = (props) => {
   ) : (<div className="horizontal-separator" />);
 
   console.log(props.package.players);
-  const content = process(props.package.players, props);
+  const content = process(props);
 
   const setter = (id) => {
     const teamId = props.package.players[id].druzyna;

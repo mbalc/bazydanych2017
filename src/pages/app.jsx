@@ -6,6 +6,7 @@ import moment from 'moment';
 import Landing from '../app/Landing';
 import Authed from '../app/Authed';
 import Login from '../app/Login';
+import Matches from '../app/MatchList';
 import Players from '../app/PlayerList';
 import PlayerView from '../app/PlayerView';
 import Teams from '../app/TeamList';
@@ -23,6 +24,7 @@ function findComponent(state) {
   switch (state) {
     case Subsite.TEAMS: return Teams;
     case Subsite.PLAYERS: return Players;
+    case Subsite.MATCHES: return Matches;
     case Subsite.AUTHED: return Authed;
     case Subsite.LOGIN: return Login;
     case Subsite.LOGOUT: return Logout;
@@ -60,16 +62,21 @@ class app extends React.Component {
     super(props);
     this.fetchAll = this.fetchAll.bind(this);
     this.fetchMembers = this.fetchMembers.bind(this);
+    this.fetchTeamGames = this.fetchTeamGames.bind(this);
+    this.fetchPlayerGames = this.fetchPlayerGames.bind(this);
 
     this.state = {
       teams: {},
       players: {},
+      matches: {},
       deadline: {},
+
+      members: {},
+      teamGames: {},
+      playerGames: {},
 
       lastUpdate: getMoment(Date.parse('Jan 01 1999 00:00:57 GMT+0100')),
       authenticated: false,
-
-      members: {},
 
       activeSite: 0,
       selTeam: '1',
@@ -77,6 +84,8 @@ class app extends React.Component {
 
       fetchAll: this.fetchAll,
       fetchMembers: this.fetchMembers,
+      fetchTeamGames: this.fetchTeamGames,
+      fetchPlayerGames: this.fetchPlayerGames,
       changeStatus: newState => this.setState(() => newState),
     };
   }
@@ -92,9 +101,12 @@ class app extends React.Component {
 
   fetchAll() {
     this.fetchMembers();
+    this.fetchTeamGames();
+    this.fetchPlayerGames();
     this.setState({
       teams: defaultContent,
       players: defaultContent,
+      matches: defaultContent,
       deadline: getMoment(Date.now()),
       lastUpdate: getMoment(Date.now()),
     });
@@ -102,6 +114,7 @@ class app extends React.Component {
 
     this.makeRequest(API.GET_TEAMS, 'teams', reindex);
     this.makeRequest(API.GET_PLAYERS, 'players', reindex);
+    this.makeRequest(API.GET_MATCHES, 'matches', reindex);
     this.makeRequest(API.GET_DEADLINE, 'deadline', e => e[0].termin);
   }
 
@@ -110,6 +123,20 @@ class app extends React.Component {
       members: defaultContent,
     });
     this.makeRequest(API.GET_MEMBERS, 'members', reindex, { id: id || this.state.selTeam });
+  }
+
+  fetchTeamGames(id) {
+    this.setState({
+      teamGames: defaultContent,
+    });
+    this.makeRequest(API.GET_TEAM_GAMES, 'teamGames', reindex, { id: id || this.state.selTeam });
+  }
+
+  fetchPlayerGames(id) {
+    this.setState({
+      playerGames: defaultContent,
+    });
+    this.makeRequest(API.GET_TEAM_GAMES, 'playerGames', reindex, { id: id || this.state.selTeam });
   }
 
   makeRequest(endpoint, storage, getter, data) {

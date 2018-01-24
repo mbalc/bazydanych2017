@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'reactstrap';
 import Subsite from '../subsite';
+import { objFilter, teamName } from '../util';
 import Detail from '../components/Detail';
 import List from '../components/List';
 
@@ -18,6 +19,7 @@ const PlayerView = (props) => {
     props.package.changeStatus({
       activeSite: Subsite.TEAM_VIEW,
     });
+    props.package.fetchTeamGames();
   };
 
   const setter = (id) => {
@@ -31,7 +33,7 @@ const PlayerView = (props) => {
   if (team) {
     player.druzyna = (
       <Button outline size="sm" color="primary" onClick={switchToTeam}>
-        {`${team}. ${props.package.teams[team].nazwa}`}
+        {teamName(props, team)}
       </Button>);
   }
 
@@ -42,6 +44,8 @@ const PlayerView = (props) => {
   if (name && surname) fullName = `${name} ${surname}`;
   else if (name || surname) fullName = name || surname;
   else fullName = <small>Bezimienny zawodnik</small>;
+
+  const comembers = objFilter(props.package.members, el => el.id !== player.id);
 
   return (
     <div>
@@ -59,7 +63,7 @@ const PlayerView = (props) => {
         </div>
         <div>
           <h3>Współczłonkowie:</h3>
-          <List content={props.package.members} setter={setter} />
+          <List content={comembers} setter={setter} />
         </div>
       </div>
     </div>
@@ -73,6 +77,7 @@ PlayerView.propTypes = {
     selPlayer: PropTypes.string,
     authenticated: PropTypes.bool,
     changeStatus: PropTypes.func,
+    fetchTeamGames: PropTypes.func,
   }).isRequired,
 };
 

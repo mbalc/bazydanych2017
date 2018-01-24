@@ -21,6 +21,7 @@ const TeamList = (props) => {
       selTeam: id,
     });
     props.package.fetchMembers(id);
+    props.package.fetchTeamGames(id);
   };
 
   return (
@@ -38,6 +39,7 @@ TeamList.propTypes = {
     authenticated: PropTypes.bool,
     changeStatus: PropTypes.func,
     fetchMembers: PropTypes.func,
+    fetchTeamGames: PropTypes.func,
   }).isRequired,
 };
 

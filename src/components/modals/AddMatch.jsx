@@ -7,27 +7,30 @@ import Subsite from '../../subsite';
 import ModalBase from './ModalBase';
 
 const defaultState = ({
-  imie: '',
-  nazwisko: '',
+  gospodarze: '',
+  goscie: '',
 });
 
-const doTeam = (props) => {
-  let { team } = props;
-  if (!team) {
-    if (teamsExist(props)) {
-      [team] = Object.keys(props.package.teams);
-    }
-    // else team stays null <=> state is invalid for adding a player
+const doTeams = (props) => {
+  const team = defaultState;
+  if (teamsExist(props, 2)) {
+    const keys = Object.keys(props.package.teams);
+    [team.gospodarze, team.goscie] = keys;
   }
   return team;
 };
 
-class AddPlayer extends React.Component {
+function rev(field) {
+  if (field === 'goscie') return 'gospodarze';
+  if (field === 'gospodarze') return 'goscie';
+  return 'error';
+}
+
+class AddMatch extends React.Component {
   constructor(props) {
     super(props);
 
-    defaultState.druzyna = doTeam(props);
-    this.state = defaultState;
+    this.state = doTeams(props);
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -35,13 +38,19 @@ class AddPlayer extends React.Component {
 
   handleChange(field) {
     return (event) => {
-      this.setState({ [field]: event.target.value });
+      const val = event.target.value;
+      const obj = Object.assign(this.state);
+      const old = obj[field];
+      if (obj[rev(field)] === val) obj[rev(field)] = old;
+      obj[field] = val;
+
+      this.setState(obj);
     };
   }
 
   handleSubmit() {
-    if (teamsExist(this.props)) {
-      post(API.ADD_PLAYER, this, defaultState);
+    if (teamsExist(this.props, 2)) {
+      post(API.ADD_MATCH, this);
     } else {
       this.props.package.changeStatus({ activeSite: Subsite.TEAMS });
     }
@@ -49,39 +58,33 @@ class AddPlayer extends React.Component {
 
   render() {
     const closed = checkDeadline(this.props);
-    if (!teamsExist(this.props)) {
+    if (!teamsExist(this.props, 2)) {
       const label = closed ? 'Zamknięto zgłoszenia' : 'Dodaj drużynę';
       return (
         <ModalBase disabled={closed} buttonLabel={label} submit={this.handleSubmit}>
-          Aby móc dodać gracza musisz wpierw dodać jakąś drużynę!
+          Aby móc dodać muszą istnieć przynajmniej dwie drużyny!
         </ModalBase>
       );
     }
-    const label = closed ? 'Zamknięto zgłoszenia' : 'Dodaj zawodnika';
+    const label = closed ? 'Zamknięto zgłoszenia' : 'Dodaj mecz';
 
     const { teams } = this.props.package;
 
-    const teamOptions = Object.keys(teams).map(key => (
+    const options = Object.keys(teams).map(key => (
       <option key={`team-option-${key}`} value={teams[key].id}>
         {teams[key].id}. {teams[key].nazwa}
-      </option>
-    ));
+      </option>));
 
-    const teamSelect = (
-      <div>
-        <Label>Drużyna:</Label>
-        <Input value={this.state.druzyna} onChange={this.handleChange('druzyna')} type="select" name="select" id="exampleSelect">
-          {teamOptions}
-        </Input>
-      </div>
-    );
     const form = (
       <FormGroup>
-        <Label>Imię:</Label>
-        <Input value={this.state.imie} onChange={this.handleChange('imie')} />
-        <Label>Nazwisko:</Label>
-        <Input value={this.state.nazwisko} onChange={this.handleChange('nazwisko')} />
-        {teamSelect}
+        <Label>Gospodarze:</Label>
+        <Input value={this.state.gospodarze} onChange={this.handleChange('gospodarze')} type="select" name="select" id="exampleSelect">
+          {options}
+        </Input>
+        <Label>Goście:</Label>
+        <Input value={this.state.goscie} onChange={this.handleChange('goscie')} type="select" name="select" id="exampleSelect">
+          {options}
+        </Input>
       </FormGroup>
     );
 
@@ -97,12 +100,12 @@ class AddPlayer extends React.Component {
   }
 }
 
-AddPlayer.defaultProps = {
+AddMatch.defaultProps = {
   team: null,
 };
 
 
-AddPlayer.propTypes = {
+AddMatch.propTypes = {
   package: PropTypes.shape({
     teams: PropTypes.objectOf(PropTypes.objectOf(PropTypes.string)),
     changeStatus: PropTypes.func,
@@ -111,4 +114,4 @@ AddPlayer.propTypes = {
   team: PropTypes.string,
 };
 
-export default AddPlayer;
+export default AddMatch;
