@@ -6,6 +6,8 @@ DROP TABLE IF EXISTS "sklad" CASCADE;
 DROP TABLE IF EXISTS "czlonek" CASCADE;
 DROP TABLE IF EXISTS "udzial" CASCADE;
 DROP TABLE IF EXISTS "set" CASCADE;
+DROP TABLE IF EXISTS "termin" CASCADE;
+
 
 
 
@@ -74,4 +76,42 @@ ALTER TABLE "set" ADD CONSTRAINT "fk_set__mecz" FOREIGN KEY ("mecz") REFERENCES 
 CREATE TABLE "termin" (
   "id" SERIAL CONSTRAINT "pk_termin" PRIMARY KEY,
   "termin" TIMESTAMP NOT NULL
-)
+);
+
+
+
+INSERT INTO termin (termin) VALUES ('5432-01-24 00:31:59');
+
+CREATE OR REPLACE FUNCTION blokuj_zgloszenia()
+RETURNS trigger AS $$
+  DECLARE
+    i integer;
+    t timestamp;
+  BEGIN
+    select count(*) from termin into i;
+    if i > 0 then
+      select termin as kiedy from (
+        select * from termin
+          order by termin asc
+          limit 1) as daty
+        into t;
+      if (t < now()) then
+        raise exception 'Zgłoszenia zostaly juz zamkniete';
+      end if;
+    end if;
+    return new;
+  END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS blokuj_zgloszenia_graczy ON gracz; 
+DROP TRIGGER IF EXISTS blokuj_zgloszenia_druzyn ON druzyna; 
+
+CREATE TRIGGER blokuj_zgloszenia_druzyn
+  AFTER INSERT OR UPDATE
+  ON druzyna
+  execute procedure blokuj_zgloszenia();
+
+CREATE TRIGGER blokuj_zgloszenia_graczy
+  AFTER INSERT OR UPDATE
+  ON gracz 
+  execute procedure blokuj_zgloszenia();

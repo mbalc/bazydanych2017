@@ -6,24 +6,37 @@ import API from '../../apiPathConfig';
 import Subsite from '../../subsite';
 import ModalBase from './ModalBase';
 
+const defaultState = ({
+  imie: '',
+  nazwisko: '',
+});
+
+const teamsExist = (props) => {
+  const { teams } = props.package;
+  if (!teams) return false;
+  const keys = Object.keys(teams);
+  return keys.length > 0 && teams[keys[0]].id;
+};
+
+const doTeam = (props) => {
+  let { team } = props;
+  if (!team) {
+    if (teamsExist(props)) {
+      [team] = Object.keys(props.package.teams);
+    }
+    // else team stays null <=> state is invalid for adding a player
+  }
+  return team;
+};
+
 class AddTeam extends React.Component {
   constructor(props) {
     super(props);
 
-    let { team } = this.props;
-    console.log('team len', !team, props.package.teams && Object.keys(props.package.teams).length > 0);
-    if (!team) {
-      if (props.package.teams && Object.keys(props.package.teams).length > 0) {
-        [team] = Object.keys(props.package.teams);
-      }
-      // else team stays null <=> state is invalid for adding a player
-    }
+    console.log('call constructor!');
 
-    this.state = {
-      imie: '',
-      nazwisko: '',
-      druzyna: team,
-    };
+    defaultState.druzyna = doTeam(props);
+    this.state = defaultState;
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -36,11 +49,12 @@ class AddTeam extends React.Component {
   }
 
   handleSubmit() {
-    if (this.state.druzyna) {
+    if (teamsExist(this.props)) {
       request.post(API.ADD_PLAYER, JSON.stringify(this.state))
         .then(() => {
           console.log('success');
           this.props.package.fetchAll();
+          this.setState(defaultState);
         })
         .catch(e => console.error('submit error:', e));
     } else {
@@ -49,7 +63,7 @@ class AddTeam extends React.Component {
   }
 
   render() {
-    if (!this.state.druzyna) {
+    if (!teamsExist(this.props)) {
       return (
         <ModalBase buttonLabel="Dodaj drużynę" submit={this.handleSubmit}>
           Aby móc dodać gracza musisz wpierw dodać jakąś drużynę!

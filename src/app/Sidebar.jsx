@@ -4,16 +4,20 @@ import request from 'axios';
 import { ButtonGroup, Button } from 'reactstrap';
 import API from '../apiPathConfig';
 import Subsite from '../subsite';
+import { checkDeadline } from '../util';
 import './Sidebar.css';
 
 const publics = [0, 1, 2, 3, 4];
 const protecs = [0, 1, 2, 3, 5];
 
-const resetEverything = props => () => {
-  request.get(API.RESET)
+const sendApi = (path, props) => () => {
+  request.get(path)
     .then(() => props.package.fetchAll())
     .catch(e => props.package.changeStatus({ lastUpdate: e.toString() }));
 };
+
+const reset = props => sendApi(API.RESET, props);
+const close = props => sendApi(API.CLOSE, props);
 
 const Sidebar = (props) => {
   const change = siteCode => () => props.package.changeStatus({ activeSite: siteCode });
@@ -28,10 +32,10 @@ const Sidebar = (props) => {
 
   const organizationButtons = props.package.authenticated ? (
     <div>
-      <Button onClick={resetEverything(props)} color="danger" size="sm">
+      <Button onClick={reset(props)} color="danger" size="sm">
         Reset danych
       </Button>
-      <Button onClick={props.package.fetchAll} color="warning" size="sm">
+      <Button onClick={close(props)} disabled={checkDeadline(props)} color="warning" size="sm">
         Zamknij zgłoszenia
       </Button>
     </div>

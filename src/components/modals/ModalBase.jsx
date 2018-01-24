@@ -19,26 +19,42 @@ class ModalBase extends React.Component {
     });
   }
 
-  submit() {
+  submit(e) {
+    e.preventDefault();
     this.toggle();
     this.props.submit();
+    console.warn(e.target);
   }
 
   render() {
     return (
       <div>
-        <Button color="danger" onClick={this.toggle}>{this.props.buttonLabel}</Button>
-        <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-          <ModalHeader toggle={this.toggle}>{this.props.buttonLabel}</ModalHeader>
-          <Form onSubmit={(e) => { e.preventDefault(); this.submit(); console.warn(e.target); }}>
+        <Button
+          color="danger"
+          disabled={this.props.disabled}
+          onClick={this.toggle}
+        >
+          {this.props.buttonLabel}
+        </Button>
+        <Modal
+          isOpen={this.state.modal}
+          toggle={this.toggle}
+          className={this.props.className}
+        >
+          <ModalHeader toggle={this.toggle}>
+            {this.props.buttonLabel}
+          </ModalHeader>
+          <Form onSubmit={this.submit}>
             <ModalBody>
               {this.props.children}
             </ModalBody>
             <ModalFooter>
-              {/* <Button color="primary" onClick={this.submit}>Dodaj</Button>{' '} */}
-              <Button color="primary" type="submit">Dodaj</Button>{' '}
-
-              <Button color="secondary" onClick={this.toggle}>Anuluj</Button>
+              <Button color="primary" type="submit">
+                Dodaj
+              </Button>
+              <Button color="secondary" onClick={this.toggle}>
+                Anuluj
+              </Button>
             </ModalFooter>
           </Form>
         </Modal>
@@ -51,6 +67,7 @@ ModalBase.defaultProps = {
   buttonLabel: 'Dodaj encję',
   className: 'modal-add-entity',
   children: null,
+  disabled: false,
 };
 
 ModalBase.propTypes = {
@@ -58,6 +75,7 @@ ModalBase.propTypes = {
   className: PropTypes.string,
   submit: PropTypes.func.isRequired,
   children: PropTypes.node,
+  disabled: PropTypes.bool,
 };
 
 export default ModalBase;

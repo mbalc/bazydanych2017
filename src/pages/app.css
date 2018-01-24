@@ -5,6 +5,10 @@
   width: 100%;
 }
 
+.align-right {
+  text-align: right;
+}
+
 .horizontal-separator {
   height: 46px;
 }
@@ -13,9 +17,19 @@
   position: relative;
 }
 
-.form-modal-wrapper{
-  text-align: right;
+.button-bar-wrapper{
+  display: flex;
+  justify-content: space-between;
   margin: 8px;
+}
+
+.neighbour-buttons {
+  display: flex;
+  justify-content: space-around;
+}
+
+.neighbour-buttons > * {
+  margin: 0 4px;
 }
 
 .sidebar-nav {

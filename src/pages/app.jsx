@@ -59,12 +59,17 @@ class app extends React.Component {
     this.fetchAll = this.fetchAll.bind(this);
 
     this.state = {
-      activeSite: 0,
       teams: {},
       players: {},
+      deadline: {},
+
       lastUpdate: getMoment(Date.parse('Jan 01 1999 00:00:57 GMT+0100')),
-      fetchAll: this.fetchAll,
       authenticated: false,
+
+      activeSite: 0,
+      selTeam: 1,
+
+      fetchAll: this.fetchAll,
       changeStatus: newState => this.setState(() => newState),
     };
   }
@@ -82,19 +87,21 @@ class app extends React.Component {
     this.setState({
       teams: defaultContent,
       players: defaultContent,
+      deadline: getMoment(Date.now()),
       lastUpdate: getMoment(Date.now()),
     });
 
-    this.makeRequest(API.GET_TEAMS, 'teams');
-    this.makeRequest(API.GET_PLAYERS, 'players');
+    this.makeRequest(API.GET_TEAMS, 'teams', reindex);
+    this.makeRequest(API.GET_PLAYERS, 'players', reindex);
+    this.makeRequest(API.GET_DEADLINE, 'deadline', e => e[0].termin);
   }
 
-  makeRequest(endpoint, storage) {
+  makeRequest(endpoint, storage, getter) {
     request
       .get(endpoint)
       .then((res) => {
-        console.log('dex', reindex(res.data));
-        this.setState({ [storage]: reindex(res.data) });
+        console.log('dex', getter(res.data));
+        this.setState({ [storage]: getter(res.data) });
       })
       .catch((err) => {
         this.setState({ [storage]: errorContent(err), lastUpdate: err.toString() });

@@ -17,7 +17,8 @@ const process = (pack, teams) => {
 
 const PlayerList = (props) => {
   const addButton = props.package.authenticated ? (
-    <div className="form-modal-wrapper">
+    <div className="button-bar-wrapper">
+      <div />
       <AddPlayer package={props.package} />
     </div>
   ) : (<div className="horizontal-separator" />);

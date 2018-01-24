@@ -22,15 +22,16 @@ const List = (props) => {
     : ['Brak wpisów!'];
 
   const temp = keys.map((el, i) => (<th key={`listKey-${i}`}>{el}</th>));
-  const heads = [(<th key="listKey-main-id">id</th>)].concat(temp);
+  const heads = [(<th scope="col" key="listKey-main-id">id</th>)].concat(temp);
 
   const content = Object.keys(input).map(dx => (
     <tr onClick={onClick(dx)} key={`listRow-${dx}`}>
-      <th>{input[dx].id || null}</th>
+      <th scope="row">{input[dx].id || null}</th>
       {keys.map((key, j) => (
         <td key={`listRow-${dx}-el-${j}`}>
           {stringToHtml(input[dx][key])}
-        </td>))}
+        </td>))
+      }
     </tr>
   ));
 

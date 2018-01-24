@@ -1,0 +1,9 @@
+.list-container {
+  background: white;
+  padding: 8px;
+}
+
+.refresh-button-wrapper {
+  text-align: right;
+  margin: 0 0 8px 0;
+}

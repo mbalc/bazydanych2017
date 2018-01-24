@@ -6,4 +6,6 @@ export default ({
   ADD_TEAM: path('addTeam'),
   ADD_PLAYER: path('addPlayer'),
   RESET: path('reset'),
+  CLOSE: path('closeEntry'),
+  GET_DEADLINE: path('deadline'),
 });
