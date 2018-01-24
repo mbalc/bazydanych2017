@@ -1,12 +1,11 @@
 DROP TABLE IF EXISTS "druzyna" CASCADE;
 DROP TABLE IF EXISTS "gracz" CASCADE;
-DROP TABLE IF EXISTS "mecz" CASCADE;
-DROP TABLE IF EXISTS "organizator" CASCADE;
 DROP TABLE IF EXISTS "sklad" CASCADE;
-DROP TABLE IF EXISTS "czlonek" CASCADE;
 DROP TABLE IF EXISTS "udzial" CASCADE;
-DROP TABLE IF EXISTS "set" CASCADE;
+DROP TABLE IF EXISTS "mecz" CASCADE;
+DROP TABLE IF EXISTS "wynik" CASCADE;
 DROP TABLE IF EXISTS "termin" CASCADE;
+
 
 DROP VIEW IF EXISTS widok_meczy;
 
@@ -38,18 +37,6 @@ CREATE INDEX "idx_sklad__druzyna" ON "sklad" ("druzyna");
 
 ALTER TABLE "sklad" ADD CONSTRAINT "fk_sklad__druzyna" FOREIGN KEY ("druzyna") REFERENCES "druzyna" ("id");
 
-CREATE TABLE "czlonek" (
-  "gracz" INTEGER NOT NULL,
-  "sklad" INTEGER NOT NULL,
-  CONSTRAINT "pk_czlonek" PRIMARY KEY ("gracz", "sklad")
-);
-
-CREATE INDEX "idx_czlonek__sklad" ON "czlonek" ("sklad");
-
-ALTER TABLE "czlonek" ADD CONSTRAINT "fk_czlonek__gracz" FOREIGN KEY ("gracz") REFERENCES "gracz" ("id");
-
-ALTER TABLE "czlonek" ADD CONSTRAINT "fk_czlonek__sklad" FOREIGN KEY ("sklad") REFERENCES "sklad" ("id");
-
 CREATE TABLE "mecz" (
   "id" SERIAL CONSTRAINT "pk_mecz" PRIMARY KEY,
   "skladgosci" INTEGER NOT NULL,
@@ -64,21 +51,42 @@ ALTER TABLE "mecz" ADD CONSTRAINT "fk_mecz__skladgosci" FOREIGN KEY ("skladgosci
 
 ALTER TABLE "mecz" ADD CONSTRAINT "fk_mecz__skladgospodarzy" FOREIGN KEY ("skladgospodarzy") REFERENCES "sklad" ("id");
 
-CREATE TABLE "set" (
-  "id" SERIAL CONSTRAINT "pk_set" PRIMARY KEY,
-  "mecz" INTEGER NOT NULL,
-  "punktygosci" SMALLINT NOT NULL,
-  "punktygospodarzy" SMALLINT NOT NULL
-);
-
-CREATE INDEX "idx_set__mecz" ON "set" ("mecz");
-
-ALTER TABLE "set" ADD CONSTRAINT "fk_set__mecz" FOREIGN KEY ("mecz") REFERENCES "mecz" ("id");
-
 CREATE TABLE "termin" (
   "id" SERIAL CONSTRAINT "pk_termin" PRIMARY KEY,
   "termin" TIMESTAMP NOT NULL
 );
+
+CREATE TABLE "udzial" (
+  "sklad" INTEGER NOT NULL,
+  "gracz" INTEGER NOT NULL,
+  CONSTRAINT "pk_udzial" PRIMARY KEY ("sklad", "gracz")
+);
+
+CREATE INDEX "idx_udzial__gracz" ON "udzial" ("gracz");
+
+ALTER TABLE "udzial" ADD CONSTRAINT "fk_udzial__gracz" FOREIGN KEY ("gracz") REFERENCES "gracz" ("id");
+
+ALTER TABLE "udzial" ADD CONSTRAINT "fk_udzial__sklad" FOREIGN KEY ("sklad") REFERENCES "sklad" ("id");
+
+CREATE TABLE "wynik" (
+  "punkty" SMALLINT NOT NULL,
+  "numerseta" SMALLINT NOT NULL,
+  "sklad" INTEGER NOT NULL,
+  "mecz" INTEGER NOT NULL,
+  CONSTRAINT "pk_wynik" PRIMARY KEY ("numerseta", "sklad", "mecz")
+);
+
+CREATE INDEX "idx_wynik__mecz" ON "wynik" ("mecz");
+
+CREATE INDEX "idx_wynik__sklad" ON "wynik" ("sklad");
+
+ALTER TABLE "wynik" ADD CONSTRAINT "fk_wynik__mecz" FOREIGN KEY ("mecz") REFERENCES "mecz" ("id");
+
+ALTER TABLE "wynik" ADD CONSTRAINT "fk_wynik__sklad" FOREIGN KEY ("sklad") REFERENCES "sklad" ("id");
+
+
+
+
 
 
 CREATE VIEW widok_meczy 

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'reactstrap';
 import Subsite from '../subsite';
-import { objFilter, teamName } from '../util';
+import { objFilter, processMatches, teamName } from '../util';
 import Detail from '../components/Detail';
 import List from '../components/List';
 
@@ -60,6 +60,7 @@ const PlayerView = (props) => {
       <div className="button-bar-wrapper">
         <div>
           <h3>Mecze:</h3>
+          <List content={processMatches(props, props.package.teamGames)} />
         </div>
         <div>
           <h3>Współczłonkowie:</h3>
@@ -74,6 +75,7 @@ PlayerView.propTypes = {
   package: PropTypes.shape({
     teams: PropTypes.objectOf(PropTypes.objectOf(PropTypes.string)),
     members: PropTypes.objectOf(PropTypes.objectOf(PropTypes.string)),
+    teamGames: PropTypes.objectOf(PropTypes.objectOf(PropTypes.string)),
     selPlayer: PropTypes.string,
     authenticated: PropTypes.bool,
     changeStatus: PropTypes.func,

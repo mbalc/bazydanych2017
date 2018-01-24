@@ -3,6 +3,11 @@
   padding: 8px;
 }
 
+.list-container-wrapper {
+  /* display: flex;
+  justify-content: center; */
+}
+
 .refresh-button-wrapper {
   text-align: right;
   margin: 0 0 8px 0;

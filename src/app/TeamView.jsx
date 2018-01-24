@@ -50,7 +50,7 @@ const TeamView = (props) => {
       <div className="button-bar-wrapper">
         <div>
           <h3>Mecze:</h3>
-          <List content={processMatches(props, props.package.teamGames)} setter={setter} />
+          <List content={processMatches(props, props.package.teamGames)} />
         </div>
         <div>
           <h3>Członkowie:</h3>
