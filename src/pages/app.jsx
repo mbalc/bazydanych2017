@@ -7,6 +7,7 @@ import Landing from '../app/Landing';
 import Authed from '../app/Authed';
 import Login from '../app/Login';
 import Players from '../app/PlayerList';
+import PlayerView from '../app/PlayerView';
 import Teams from '../app/TeamList';
 import TeamView from '../app/TeamView';
 import Logout from '../app/Logout';
@@ -26,6 +27,7 @@ function findComponent(state) {
     case Subsite.LOGIN: return Login;
     case Subsite.LOGOUT: return Logout;
     case Subsite.TEAM_VIEW: return TeamView;
+    case Subsite.PLAYER_VIEW: return PlayerView;
     default: return Landing;
   }
 }
@@ -57,6 +59,7 @@ class app extends React.Component {
   constructor(props) {
     super(props);
     this.fetchAll = this.fetchAll.bind(this);
+    this.fetchMembers = this.fetchMembers.bind(this);
 
     this.state = {
       teams: {},
@@ -66,10 +69,14 @@ class app extends React.Component {
       lastUpdate: getMoment(Date.parse('Jan 01 1999 00:00:57 GMT+0100')),
       authenticated: false,
 
+      members: {},
+
       activeSite: 0,
-      selTeam: 1,
+      selTeam: '1',
+      selPlayer: '1',
 
       fetchAll: this.fetchAll,
+      fetchMembers: this.fetchMembers,
       changeStatus: newState => this.setState(() => newState),
     };
   }
@@ -84,6 +91,7 @@ class app extends React.Component {
   }
 
   fetchAll() {
+    this.fetchMembers();
     this.setState({
       teams: defaultContent,
       players: defaultContent,
@@ -91,16 +99,23 @@ class app extends React.Component {
       lastUpdate: getMoment(Date.now()),
     });
 
+
     this.makeRequest(API.GET_TEAMS, 'teams', reindex);
     this.makeRequest(API.GET_PLAYERS, 'players', reindex);
     this.makeRequest(API.GET_DEADLINE, 'deadline', e => e[0].termin);
   }
 
-  makeRequest(endpoint, storage, getter) {
-    request
-      .get(endpoint)
+  fetchMembers(id) {
+    this.setState({
+      members: defaultContent,
+    });
+    this.makeRequest(API.GET_MEMBERS, 'members', reindex, { id: id || this.state.selTeam });
+  }
+
+  makeRequest(endpoint, storage, getter, data) {
+    const method = data ? 'post' : 'get';
+    request[method](endpoint, data)
       .then((res) => {
-        console.log('dex', getter(res.data));
         this.setState({ [storage]: getter(res.data) });
       })
       .catch((err) => {

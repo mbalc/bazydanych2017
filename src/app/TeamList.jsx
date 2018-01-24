@@ -15,10 +15,13 @@ const TeamList = (props) => {
     </div>
   ) : (<div className="horizontal-separator" />);
 
-  const setter = id => props.package.changeStatus({
-    activeSite: Subsite.TEAM_VIEW,
-    selTeam: id,
-  });
+  const setter = (id) => {
+    props.package.changeStatus({
+      activeSite: Subsite.TEAM_VIEW,
+      selTeam: id,
+    });
+    props.package.fetchMembers(id);
+  };
 
   return (
     <div>
@@ -34,6 +37,7 @@ TeamList.propTypes = {
     teams: PropTypes.objectOf(PropTypes.objectOf(PropTypes.string)),
     authenticated: PropTypes.bool,
     changeStatus: PropTypes.func,
+    fetchMembers: PropTypes.func,
   }).isRequired,
 };
 

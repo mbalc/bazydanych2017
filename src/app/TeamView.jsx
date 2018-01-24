@@ -9,7 +9,7 @@ import List from '../components/List';
 const TeamView = (props) => {
   const teamId = props.package.selTeam;
   const teamStuff = props.package.teams[teamId] || {};
-  const teamName = teamStuff ? teamStuff.nazwa || null : null;
+  const teamName = teamStuff ? teamStuff.nazwa || (<small>Drużyna bez nazwy</small>) : null;
 
   const returnToTeams = () => props.package.changeStatus({
     activeSite: Subsite.TEAMS,
@@ -25,18 +25,12 @@ const TeamView = (props) => {
     <AddPlayer package={props.package} team={teamId} />
   ) : null;
 
-
-  const { players } = props.package;
-
-  const members = {};
-  const memberKeys = ['imie', 'nazwisko', 'id'];
-
-  Object.keys(players)
-    .filter(key => players[key].druzyna === teamId)
-    .forEach((key) => {
-      members[key] = {};
-      memberKeys.forEach((mKey) => { members[key][mKey] = players[key][mKey]; });
+  const setter = (id) => {
+    props.package.changeStatus({
+      activeSite: Subsite.PLAYER_VIEW,
+      selPlayer: id,
     });
+  };
 
   return (
     <div>
@@ -57,8 +51,8 @@ const TeamView = (props) => {
           <h3>Mecze:</h3>
         </div>
         <div>
-          <h3>Gracze:</h3>
-          <List content={members} />
+          <h3>Członkowie:</h3>
+          <List content={props.package.members} setter={setter} />
         </div>
       </div>
     </div>
@@ -68,6 +62,7 @@ const TeamView = (props) => {
 TeamView.propTypes = {
   package: PropTypes.shape({
     teams: PropTypes.objectOf(PropTypes.objectOf(PropTypes.string)),
+    members: PropTypes.objectOf(PropTypes.objectOf(PropTypes.string)),
     selTeam: PropTypes.string,
     authenticated: PropTypes.bool,
     changeStatus: PropTypes.func,

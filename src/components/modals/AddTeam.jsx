@@ -2,6 +2,7 @@ import React from 'react';
 import { FormGroup, Label, Input } from 'reactstrap';
 import PropTypes from 'prop-types';
 import request from 'axios';
+import { checkDeadline } from '../../util';
 import API from '../../apiPathConfig';
 import ModalBase from './ModalBase';
 
@@ -36,8 +37,14 @@ class AddTeam extends React.Component {
   }
 
   render() {
+    const closed = checkDeadline(this.props);
+    const label = closed ? 'Zamknięto zgłoszenia' : 'Dodaj drużynę';
     return (
-      <ModalBase buttonLabel="Dodaj drużynę" submit={this.handleSubmit}>
+      <ModalBase
+        disabled={closed}
+        buttonLabel={label}
+        submit={this.handleSubmit}
+      >
         <FormGroup>
           <Label>Nazwa:</Label>
           <Input value={this.state.nazwa} onChange={this.handleChange('nazwa')} />

@@ -15,4 +15,5 @@ export default ({
   LOGOUT: 5,
   AUTHED: 6,
   TEAM_VIEW: 7,
+  PLAYER_VIEW: 8,
 });

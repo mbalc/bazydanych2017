@@ -3,6 +3,7 @@ import { FormGroup, Label, Input } from 'reactstrap';
 import PropTypes from 'prop-types';
 import request from 'axios';
 import API from '../../apiPathConfig';
+import { checkDeadline, teamsExist } from '../../util';
 import Subsite from '../../subsite';
 import ModalBase from './ModalBase';
 
@@ -10,13 +11,6 @@ const defaultState = ({
   imie: '',
   nazwisko: '',
 });
-
-const teamsExist = (props) => {
-  const { teams } = props.package;
-  if (!teams) return false;
-  const keys = Object.keys(teams);
-  return keys.length > 0 && teams[keys[0]].id;
-};
 
 const doTeam = (props) => {
   let { team } = props;
@@ -63,13 +57,16 @@ class AddTeam extends React.Component {
   }
 
   render() {
+    const closed = checkDeadline(this.props);
     if (!teamsExist(this.props)) {
+      const label = closed ? 'Zamknięto zgłoszenia' : 'Dodaj drużynę';
       return (
-        <ModalBase buttonLabel="Dodaj drużynę" submit={this.handleSubmit}>
+        <ModalBase disabled={closed} buttonLabel={label} submit={this.handleSubmit}>
           Aby móc dodać gracza musisz wpierw dodać jakąś drużynę!
         </ModalBase>
       );
     }
+    const label = closed ? 'Zamknięto zgłoszenia' : 'Dodaj zawodnika';
 
     const { teams } = this.props.package;
 
@@ -98,7 +95,11 @@ class AddTeam extends React.Component {
     );
 
     return (
-      <ModalBase buttonLabel="Dodaj zawodnika" submit={this.handleSubmit}>
+      <ModalBase
+        disabled={closed}
+        buttonLabel={label}
+        submit={this.handleSubmit}
+      >
         {form}
       </ModalBase>
     );
@@ -116,7 +117,7 @@ AddTeam.propTypes = {
     changeStatus: PropTypes.func,
     fetchAll: PropTypes.func,
   }).isRequired,
-  team: PropTypes.number,
+  team: PropTypes.string,
 };
 
 export default AddTeam;
