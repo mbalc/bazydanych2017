@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'reactstrap';
 import Subsite from '../subsite';
+import { processMatches } from '../util';
 import AddPlayer from '../components/modals/AddPlayer';
 import Detail from '../components/Detail';
 import List from '../components/List';
@@ -49,7 +50,7 @@ const TeamView = (props) => {
       <div className="button-bar-wrapper">
         <div>
           <h3>Mecze:</h3>
-          <List content={props.package.teamGames} setter={setter} />
+          <List content={processMatches(props, props.package.teamGames)} setter={setter} />
         </div>
         <div>
           <h3>Członkowie:</h3>

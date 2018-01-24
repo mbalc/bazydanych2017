@@ -32,7 +32,7 @@ const PlayerView = (props) => {
   const team = player.druzyna;
   if (team) {
     player.druzyna = (
-      <Button outline size="sm" color="primary" onClick={switchToTeam}>
+      <Button className="btn btn-link my-btn-link" onClick={switchToTeam}>
         {teamName(props, team)}
       </Button>);
   }

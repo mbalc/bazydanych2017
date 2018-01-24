@@ -32,7 +32,7 @@ export const teamName = (props, id) => (props.package.teams[id]
   ? `${id}. ${props.package.teams[id].nazwa}`
   : id);
 
-export const processMatches = props => objMap(props.package.matches, (el) => {
+export const processMatches = (props, matches) => objMap(matches || props.package.matches, (el) => {
   const guests = teamName(props, el.goście);
   const hosts = teamName(props, el.gospodarze);
   return Object.assign({}, el, { goście: guests, gospodarze: hosts });

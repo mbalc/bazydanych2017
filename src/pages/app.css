@@ -17,6 +17,12 @@
   position: relative;
 }
 
+.my-btn-link {
+  border: 0px;
+  padding: 0px;
+  font-size: 0.8203125rem;
+}
+
 .button-bar-wrapper{
   display: flex;
   justify-content: space-between;
