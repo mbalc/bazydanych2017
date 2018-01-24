@@ -18,6 +18,7 @@ const sendApi = (path, props) => () => {
 
 const reset = props => sendApi(API.RESET, props);
 const close = props => sendApi(API.CLOSE, props);
+const insert = props => sendApi(API.INSERT, props);
 
 const Sidebar = (props) => {
   const change = siteCode => () => props.package.changeStatus({ activeSite: siteCode });
@@ -37,6 +38,9 @@ const Sidebar = (props) => {
       </Button>
       <Button onClick={close(props)} disabled={checkDeadline(props)} color="warning" size="sm">
         Zamknij zgłoszenia
+      </Button>
+      <Button onClick={insert(props)} disabled={checkDeadline(props)} color="primary" size="sm">
+        Dodaj przykładowe dane
       </Button>
     </div>
   ) : null;

@@ -2,13 +2,14 @@ import React from 'react';
 import { FormGroup, Label, Input } from 'reactstrap';
 import PropTypes from 'prop-types';
 import API from '../../apiPathConfig';
-import { checkDeadline, teamsExist, post } from '../../util';
+import { teamsExist, post } from '../../util';
 import Subsite from '../../subsite';
 import ModalBase from './ModalBase';
 
 const defaultState = ({
   gospodarze: '',
   goscie: '',
+  komentarz: '',
 });
 
 const doTeams = (props) => {
@@ -50,23 +51,20 @@ class AddMatch extends React.Component {
 
   handleSubmit() {
     if (teamsExist(this.props, 2)) {
-      post(API.ADD_MATCH, this);
+      post(API.ADD_MATCH, this, { komentarz: '' });
     } else {
       this.props.package.changeStatus({ activeSite: Subsite.TEAMS });
     }
   }
 
   render() {
-    const closed = checkDeadline(this.props);
     if (!teamsExist(this.props, 2)) {
-      const label = closed ? 'Zamknięto zgłoszenia' : 'Dodaj drużynę';
       return (
-        <ModalBase disabled={closed} buttonLabel={label} submit={this.handleSubmit}>
+        <ModalBase buttonLabel="Dodaj drużynę" submit={this.handleSubmit}>
           Aby móc dodać muszą istnieć przynajmniej dwie drużyny!
         </ModalBase>
       );
     }
-    const label = closed ? 'Zamknięto zgłoszenia' : 'Dodaj mecz';
 
     const { teams } = this.props.package;
 
@@ -78,20 +76,21 @@ class AddMatch extends React.Component {
     const form = (
       <FormGroup>
         <Label>Gospodarze:</Label>
-        <Input value={this.state.gospodarze} onChange={this.handleChange('gospodarze')} type="select" name="select" id="exampleSelect">
+        <Input value={this.state.gospodarze} onChange={this.handleChange('gospodarze')} type="select" name="select">
           {options}
         </Input>
         <Label>Goście:</Label>
-        <Input value={this.state.goscie} onChange={this.handleChange('goscie')} type="select" name="select" id="exampleSelect">
+        <Input value={this.state.goscie} onChange={this.handleChange('goscie')} type="select" name="select">
           {options}
         </Input>
+        <Label>Komentarz do meczu:</Label>
+        <Input value={this.state.komentarz} onChange={this.handleChange('komentarz')} />
       </FormGroup>
     );
 
     return (
       <ModalBase
-        disabled={closed}
-        buttonLabel={label}
+        buttonLabel="Dodaj mecz"
         submit={this.handleSubmit}
       >
         {form}

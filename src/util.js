@@ -38,10 +38,12 @@ export const processMatches = (props, matches) => objMap(matches || props.packag
   return Object.assign({}, el, { goście: guests, gospodarze: hosts });
 });
 
-export const post = (path, obj, reset) => request
-  .post(path, JSON.stringify(obj.state))
-  .then(() => {
-    obj.props.package.fetchAll();
-    if (reset) { obj.setState(reset); }
-  })
-  .catch(e => console.error('submit error:', e));
+export const post = (path, obj, reset) => {
+  request
+    .post(path, JSON.stringify(obj.state))
+    .then(() => {
+      obj.props.package.fetchAll();
+      if (reset) { obj.setState(reset); }
+    })
+    .catch(e => console.error('submit error:', e));
+};

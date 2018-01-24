@@ -24,12 +24,9 @@
  $goscie = $resultArray[0][id];
 
 
- $stmt = pg_prepare($link, "setup_match", 'INSERT INTO mecz (skladGospodarzy, skladGosci) VALUES ($1, $2)');
+ $stmt = pg_prepare($link, "setup_match", 'INSERT INTO mecz (skladGospodarzy, skladGosci, komentarz) VALUES ($1, $2, $3)');
  print_r(pg_last_error());
 
- $result = pg_execute($link, "setup_match", array($gospodarze, $goscie));
+ $result = pg_execute($link, "setup_match", array($gospodarze, $goscie, $decoded[komentarz]));
  print_r(pg_last_error());
-
-
-
 ?>

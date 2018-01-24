@@ -5,4 +5,7 @@
 
   $wynik = pg_query($link, $query);
 
+  $resultArray = pg_fetch_all($wynik);
+  echo json_encode($resultArray);
+  print_r(pg_last_error());
 ?>

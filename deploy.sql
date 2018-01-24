@@ -39,6 +39,7 @@ ALTER TABLE "sklad" ADD CONSTRAINT "fk_sklad__druzyna" FOREIGN KEY ("druzyna") R
 
 CREATE TABLE "mecz" (
   "id" SERIAL CONSTRAINT "pk_mecz" PRIMARY KEY,
+  "komentarz" TEXT,
   "skladgosci" INTEGER NOT NULL,
   "skladgospodarzy" INTEGER NOT NULL
 );
@@ -94,7 +95,21 @@ CREATE VIEW widok_meczy
     t.id,
     t1.druzyna AS gospodarze,
     t2.druzyna AS goście,
-    (SELECT COUNT(*) FROM set) as sety
+    (SELECT COUNT(*) FROM set) as sety,
+    (SELECT COUNT(*) FROM wynik WHERE mecz=t.id AND sklad=t1.id AND punkty = 21) as "wynik gospodarzy",
+    (SELECT COUNT(*) FROM wynik WHERE mecz=t.id AND sklad=t2.id AND punkty = 21) as "wynik gości",
+    
+    (CASE WHEN (SELECT COUNT(*) FROM udzial WHERE sklad=t.skladGosci OR sklad=t.skladGospodarzy)=12
+      THEN CASE WHEN (SELECT COUNT(*) FROM wynik WHERE mecz=t.id) > 0
+        -- THEN CASE WHEN (t.punktyGospodarzy = 3 OR t.punktyGosci = 3)
+          THEN 'zakończony'
+          -- ELSE 'w trakcie'
+        -- END
+        ELSE 'nierozegrany'
+      END
+      ELSE 'bez składów'
+    END) as status,
+    t.komentarz
   FROM mecz t 
     JOIN sklad t1 ON t.skladGospodarzy=t1.id
     JOIN sklad t2 ON t.skladGosci=t2.id; 
@@ -117,15 +132,68 @@ RETURNS trigger AS $$
           limit 1) as daty
         into t;
       if (t < now()) then
-        raise exception 'Zgłoszenia zostaly juz zamkniete';
+        raise exception 'Zgłoszenia zostaly juz zamkniete!';
       end if;
     end if;
     return new;
   END;
 $$ LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION limit_skladu()
+RETURNS trigger AS $$
+  DECLARE
+    i integer;
+    p integer;
+    q integer;
+  BEGIN
+    select count(*) from udzial where sklad=NEW.sklad into i;
+    if i > 6 then
+      raise exception 'Skład jest już pełny!';
+    end if;
+    select count(*) from wynik where sklad=NEW.sklad into i;
+    if i > 0 then
+      raise exception 'Nie wolno zmieniać składu już rozpoczętego meczu!';
+    end if;
+    select druzyna from gracz where id=NEW.gracz into p;
+    select druzyna from sklad where id=NEW.sklad into q;
+    if p != q then
+      raise exception 'Gracz nie należy do drużyny tego składu!';
+    end if;
+    raise notice 'Value i: %', i;
+    raise notice 'Value p: %', p;
+    raise notice 'Value q: %', q;
+    return new;
+  END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION edycja_skladu()
+RETURNS trigger AS $$
+  DECLARE
+    i integer;
+  BEGIN
+    select count(*) from wynik where sklad=OLD.sklad into i;
+    if i > 0 then
+      raise exception 'Nie wolno zmieniać składu już rozpoczętego meczu!';
+    end if;
+    return OLD;
+  END;
+$$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS limituj_sklady ON czlonek; 
 DROP TRIGGER IF EXISTS blokuj_zgloszenia_graczy ON gracz; 
 DROP TRIGGER IF EXISTS blokuj_zgloszenia_druzyn ON druzyna; 
+
+CREATE TRIGGER limituj_sklady 
+  AFTER INSERT OR UPDATE
+  ON udzial
+  FOR EACH ROW
+  execute procedure limit_skladu();
+
+CREATE TRIGGER edycja_skladow 
+  AFTER DELETE OR UPDATE
+  ON udzial
+  FOR EACH ROW
+  execute procedure edycja_skladu();
 
 CREATE TRIGGER blokuj_zgloszenia_druzyn
   AFTER INSERT OR UPDATE

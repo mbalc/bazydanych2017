@@ -12,5 +12,6 @@ export default ({
   GET_PLAYER_GAMES: path('playerGames'),
   RESET: path('reset'),
   CLOSE: path('closeEntry'),
+  INSERT: path('insert'),
   GET_DEADLINE: path('deadline'),
 });
