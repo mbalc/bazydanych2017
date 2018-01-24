@@ -49,14 +49,40 @@ class AddTeam extends React.Component {
   }
 
   render() {
-    const form = this.state.druzyna ? (
+    if (!this.state.druzyna) {
+      return (
+        <ModalBase buttonLabel="Dodaj drużynę" submit={this.handleSubmit}>
+          Aby móc dodać gracza musisz wpierw dodać jakąś drużynę!
+        </ModalBase>
+      );
+    }
+
+    const { teams } = this.props.package;
+
+    const teamOptions = Object.keys(teams).map(key => (
+      <option key={`team-option-${key}`} value={teams[key].id}>
+        {teams[key].id}. {teams[key].nazwa}
+      </option>
+    ));
+
+    const teamSelect = (
+      <div>
+        <Label>Drużyna:</Label>
+        <Input value={this.state.druzyna} onChange={this.handleChange('druzyna')} type="select" name="select" id="exampleSelect">
+          {teamOptions}
+        </Input>
+      </div>
+    );
+    const form = (
       <FormGroup>
         <Label>Imię:</Label>
         <Input value={this.state.imie} onChange={this.handleChange('imie')} />
         <Label>Nazwisko:</Label>
         <Input value={this.state.nazwisko} onChange={this.handleChange('nazwisko')} />
+        {teamSelect}
       </FormGroup>
-    ) : ('Najpierw dodaj jakąś drużynę!');
+    );
+
     return (
       <ModalBase buttonLabel="Dodaj zawodnika" submit={this.handleSubmit}>
         {form}

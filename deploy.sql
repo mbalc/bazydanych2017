@@ -69,4 +69,9 @@ CREATE TABLE "set" (
 
 CREATE INDEX "idx_set__mecz" ON "set" ("mecz");
 
-ALTER TABLE "set" ADD CONSTRAINT "fk_set__mecz" FOREIGN KEY ("mecz") REFERENCES "mecz" ("id")
+ALTER TABLE "set" ADD CONSTRAINT "fk_set__mecz" FOREIGN KEY ("mecz") REFERENCES "mecz" ("id");
+
+CREATE TABLE "termin" (
+  "id" SERIAL CONSTRAINT "pk_termin" PRIMARY KEY,
+  "termin" TIMESTAMP NOT NULL
+)

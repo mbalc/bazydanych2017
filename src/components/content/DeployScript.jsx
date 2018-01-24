@@ -1,7 +1,7 @@
 import React from 'react';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { docco } from 'react-syntax-highlighter/styles/hljs';
-import sqlCode from '!raw-loader!../../../public/static/deploy.sql';
+import sqlCode from '!raw-loader!../../../deploy.sql';
 import wrap from './Wrapper';
 import './DeployScript.css';
 
