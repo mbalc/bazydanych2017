@@ -30,6 +30,7 @@ const PlayerList = (props) => {
       selPlayer: id,
       selTeam: teamId,
     });
+    props.package.fetchPlayerGames(id);
     props.package.fetchMembers(teamId);
   };
 
@@ -49,6 +50,7 @@ PlayerList.propTypes = {
     authenticated: PropTypes.bool.isRequired,
     changeStatus: PropTypes.func,
     fetchMembers: PropTypes.func,
+    fetchPlayerGames: PropTypes.func,
   }).isRequired,
 };
 

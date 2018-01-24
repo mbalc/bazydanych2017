@@ -136,7 +136,7 @@ class app extends React.Component {
     this.setState({
       playerGames: defaultContent,
     });
-    this.makeRequest(API.GET_TEAM_GAMES, 'playerGames', reindex, { id: id || this.state.selTeam });
+    this.makeRequest(API.GET_PLAYER_GAMES, 'playerGames', reindex, { id: id || this.state.selPlayer });
   }
 
   makeRequest(endpoint, storage, getter, data) {

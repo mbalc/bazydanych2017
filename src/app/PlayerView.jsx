@@ -27,6 +27,7 @@ const PlayerView = (props) => {
       activeSite: Subsite.PLAYER_VIEW,
       selPlayer: id,
     });
+    props.package.fetchPlayerGames(id);
   };
 
   const team = player.druzyna;
@@ -50,6 +51,7 @@ const PlayerView = (props) => {
   return (
     <div>
       <h1>{fullName}</h1>
+      <h4>Szczegóły gracza: </h4>
       <Detail content={player} />
       <div className="button-bar-wrapper">
         <Button onClick={returnToPlayers}>
@@ -60,7 +62,7 @@ const PlayerView = (props) => {
       <div className="button-bar-wrapper">
         <div>
           <h3>Mecze:</h3>
-          <List content={processMatches(props, props.package.teamGames)} />
+          <List content={processMatches(props, props.package.playerGames)} />
         </div>
         <div>
           <h3>Współczłonkowie:</h3>
@@ -75,11 +77,12 @@ PlayerView.propTypes = {
   package: PropTypes.shape({
     teams: PropTypes.objectOf(PropTypes.objectOf(PropTypes.string)),
     members: PropTypes.objectOf(PropTypes.objectOf(PropTypes.string)),
-    teamGames: PropTypes.objectOf(PropTypes.objectOf(PropTypes.string)),
+    playerGames: PropTypes.objectOf(PropTypes.objectOf(PropTypes.string)),
     selPlayer: PropTypes.string,
     authenticated: PropTypes.bool,
     changeStatus: PropTypes.func,
     fetchTeamGames: PropTypes.func,
+    fetchPlayerGames: PropTypes.func,
   }).isRequired,
 };
 

@@ -4,6 +4,7 @@ import { Button } from 'reactstrap';
 import Subsite from '../subsite';
 import { processMatches } from '../util';
 import AddPlayer from '../components/modals/AddPlayer';
+import AddMatch from '../components/modals/AddMatch';
 import Detail from '../components/Detail';
 import List from '../components/List';
 
@@ -17,9 +18,7 @@ const TeamView = (props) => {
   });
 
   const addMatch = props.package.authenticated ? (
-    <Button color="primary" onClick={returnToTeams}>
-      Dodaj mecz
-    </Button>
+    <AddMatch package={props.package} team={teamId} />
   ) : null;
 
   const addMember = props.package.authenticated ? (
@@ -36,6 +35,7 @@ const TeamView = (props) => {
   return (
     <div>
       <h1>{teamName}</h1>
+      <h4>Szczegóły drużyny: </h4>
       <Detail content={teamStuff} />
       <div className="button-bar-wrapper">
         <Button onClick={returnToTeams}>

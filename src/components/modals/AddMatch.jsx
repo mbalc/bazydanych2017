@@ -16,7 +16,10 @@ const doTeams = (props) => {
   const team = defaultState;
   if (teamsExist(props, 2)) {
     const keys = Object.keys(props.package.teams);
-    [team.gospodarze, team.goscie] = keys;
+    if (props.team) {
+      team.gospodarze = props.team;
+      [team.goscie] = keys.filter(el => el !== props.team);
+    } else { [team.gospodarze, team.goscie] = keys; }
   }
   return team;
 };
