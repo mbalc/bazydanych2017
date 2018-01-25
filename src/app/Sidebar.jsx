@@ -54,7 +54,7 @@ const Sidebar = (props) => {
 
   return (
     <div className="sidebar-wrapper">
-      <a href="/">
+      <a href="http://students.mimuw.edu.pl/~mb385130/bd/projekt2017/">
         <img
           alt=""
           width="160px"
