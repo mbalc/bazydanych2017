@@ -38,9 +38,9 @@
   );
 
   $matches = array(
-    array('goscie' => '2', 'gospodarze' => '1', 'komentarz' => 'Janusze przegrywają z kretesem!'),
-    array('goscie' => '1', 'gospodarze' => '2', 'komentarz' => 'Kolejne zwycięstwo niezwyciężonych polityków!'),
-    array('goscie' => '1', 'gospodarze' => '2', 'komentarz' => 'Czy Janusze zdołają się zrewanżować?!'),
+    array('goscie' => '2', 'gospodarze' => '1', 'komentarz' => 'Kolejne zwycięstwo niezwyciężonych polityków!'),
+    array('goscie' => '1', 'gospodarze' => '2', 'komentarz' => 'Janusze przegrywają z kretesem!'),
+    array('goscie' => '1', 'gospodarze' => '2', 'komentarz' => 'Czy Januszom uda się zrewanżować?!'),
     array('goscie' => '2', 'gospodarze' => '1', 'komentarz' => 'Szykuje się zacięty pojedynek! (po-sześć-ynek?)'),
     array('goscie' => '3', 'gospodarze' => '2', 'komentarz' => 'Nie wiadomo czy spotkanie dojdzie do skutku - Januszowie mają problemy ze skompletowaniem składu... Tymczasem - przerwa na reklamę i sprawdzenie, jak wyświetlają się długie napisy we frontendzie!')
   );
@@ -83,9 +83,9 @@
 
   $url = 'http://students.mimuw.edu.pl/~mb385130/bd/projekt2017/static/api/setPoints.php';
   exe($options, array(
-    array('mecz' => '1', 'gospodarze' => '21', 'goscie' => '20'),
-    array('mecz' => '2', 'gospodarze' => '21', 'goscie' => '20'),
-    array('mecz' => '3', 'gospodarze' => '21', 'goscie' => '20')), $url);
+    array('mecz' => '1', 'gospodarze' => '21', 'goście' => '20'),
+    array('mecz' => '2', 'gospodarze' => '21', 'goście' => '15'),
+    array('mecz' => '3', 'gospodarze' => '12', 'goście' => '21')), $url);
 
 
   $url = 'http://students.mimuw.edu.pl/~mb385130/bd/projekt2017/static/api/addSet.php';
@@ -93,9 +93,9 @@
 
   $url = 'http://students.mimuw.edu.pl/~mb385130/bd/projekt2017/static/api/setPoints.php';
   exe($options, array(
-    array('mecz' => '1', 'gospodarze' => '21', 'goscie' => '20'),
-    array('mecz' => '2', 'gospodarze' => '21', 'goscie' => '20'),
-    array('mecz' => '3', 'gospodarze' => '21', 'goscie' => '20')), $url);
+    array('mecz' => '1', 'gospodarze' => '21', 'goście' => '18'),
+    array('mecz' => '2', 'gospodarze' => '7', 'goście' => '21'),
+    array('mecz' => '3', 'gospodarze' => '19', 'goście' => '21')), $url);
 
 
   $url = 'http://students.mimuw.edu.pl/~mb385130/bd/projekt2017/static/api/addSet.php';
@@ -103,9 +103,9 @@
 
   $url = 'http://students.mimuw.edu.pl/~mb385130/bd/projekt2017/static/api/setPoints.php';
   exe($options, array(
-    array('mecz' => '1', 'gospodarze' => '21', 'goscie' => '20'),
-    array('mecz' => '2', 'gospodarze' => '21', 'goscie' => '20'),
-    array('mecz' => '3', 'gospodarze' => '21', 'goscie' => '20')), $url);
+    array('mecz' => '1', 'gospodarze' => '21', 'goście' => '20'),
+    array('mecz' => '2', 'gospodarze' => '13', 'goście' => '21'),
+    array('mecz' => '3', 'gospodarze' => '21', 'goście' => '17')), $url);
 
 
   $url = 'http://students.mimuw.edu.pl/~mb385130/bd/projekt2017/static/api/addSet.php';
@@ -113,14 +113,14 @@
 
   $url = 'http://students.mimuw.edu.pl/~mb385130/bd/projekt2017/static/api/setPoints.php';
   exe($options, array(
-    array('mecz' => '2', 'gospodarze' => '21', 'goscie' => '20'),
-    array('mecz' => '3', 'gospodarze' => '21', 'goscie' => '20')), $url);
+    array('mecz' => '2', 'gospodarze' => '9', 'goście' => '21'),
+    array('mecz' => '3', 'gospodarze' => '21', 'goście' => '20')), $url);
 
 
   $url = 'http://students.mimuw.edu.pl/~mb385130/bd/projekt2017/static/api/addSet.php';
-  exe($options, array(array('mecz' => '2')), $url);
+  exe($options, array(array('mecz' => '3')), $url);
 
   $url = 'http://students.mimuw.edu.pl/~mb385130/bd/projekt2017/static/api/setPoints.php';
   exe($options, array(
-    array('mecz' => '2', 'gospodarze' => '21', 'goscie' => '20')), $url);
+    array('mecz' => '3', 'gospodarze' => '19', 'goście' => '19')), $url);
 ?>

@@ -6,6 +6,7 @@ import API from '../apiPathConfig';
 import Detail from '../components/Detail';
 import List from '../components/List';
 import SetSquads from '../components/modals/SetSquads';
+import SetPoints from '../components/modals/SetPoints';
 
 const MatchView = (props) => {
   const matchId = props.package.selMatch;
@@ -29,7 +30,7 @@ const MatchView = (props) => {
   const addSet = (
     <Button
       outline
-      disabled={match.status === 'w trakcie' || match.status === 'rozegrany'}
+      disabled={match.status === 'w trakcie' || match.status === 'zakończony'}
       color="danger"
       onClick={() => post(API.ADD_SET, {
         state: { mecz: matchId },
@@ -66,6 +67,12 @@ const MatchView = (props) => {
         </div>
         <div />
       </div>
+      {props.package.authenticated ? (
+        <div className="button-bar-wrapper">
+          <div />
+          <SetPoints package={props.package} match={matchId} />
+          <div />
+        </div>) : null}
       <div className="button-bar-wrapper">
         <div>
           <h3>Gospodarze:</h3>

@@ -104,7 +104,6 @@ CREATE VIEW widok_meczy
     t.id,
     t1.druzyna AS gospodarze,
     t2.druzyna AS goście,
-    (SELECT COUNT(*) FROM set) as sety,
     (SELECT COUNT(*) FROM wynik WHERE mecz=t.id AND sklad=t1.id AND punkty = 21) as "wynik gospodarzy",
     (SELECT COUNT(*) FROM wynik WHERE mecz=t.id AND sklad=t2.id AND punkty = 21) as "wynik gości",
     
@@ -157,6 +156,7 @@ CREATE OR REPLACE FUNCTION ustaw_wynik(mId int, pg int, ph int) RETURNS void AS 
     select skladGosci from mecz where id=mId into g;
     select skladGospodarzy  from mecz where id=mId into h;
     select max(id) from widok_setow where mecz=mId into m;
+    update wynik set punkty = 0 where numerseta = m and sklad in (g, h) and mecz=mId;
     update wynik set punkty = pg where numerseta = m and sklad = g and mecz=mId;
     update wynik set punkty = ph where numerseta = m and sklad = h and mecz=mId;
   END;
@@ -234,7 +234,7 @@ RETURNS trigger AS $$
     if i > 1 then
       raise exception 'Nie można rozgrywać więcej niż jednego seta jednocześnie!';
     end if;
-    if (select count(status) from widok_meczy where id=NEW.mecz and status='rozegrany') > 0 then
+    if (TG_OP = 'INSERT') and (select count(status) from widok_meczy where id=NEW.mecz and status='zakończony') > 0 then
       raise exception 'Mecz już się skończył!';
     end if;
     if (select count(*) from widok_meczy where "wynik gości" = 3 and "wynik gospodarzy" = 3) > 0 then
@@ -261,7 +261,7 @@ DROP TRIGGER IF EXISTS blokuj_zgloszenia_graczy ON gracz;
 DROP TRIGGER IF EXISTS blokuj_zgloszenia_druzyn ON druzyna; 
 
 CREATE TRIGGER limituj_rozgrywane_sety 
-  AFTER INSERT OR UPDATE
+  BEFORE INSERT OR UPDATE
   ON wynik
   FOR EACH ROW
   execute procedure jeden_set_naraz();
