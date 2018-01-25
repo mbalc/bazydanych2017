@@ -55,8 +55,10 @@ export const setter = (props, path) => (id) => {
       break;
     }
     case 'PLAYER_VIEW': {
+      const team = props.package.players[id].druzyna;
       obj.selPlayer = id;
-      props.package.fetchMembers(props.package.players[id].druzyna);
+      obj.selTeam = team;
+      props.package.fetchMembers(team);
       props.package.fetchPlayerGames(id);
       break;
     }
@@ -70,7 +72,9 @@ export const setter = (props, path) => (id) => {
       props.package.fetchTeamGames(id);
       break;
     }
-    default:
+    default: {
+      break;
+    }
   }
   props.package.changeStatus(obj);
 };
@@ -109,3 +113,5 @@ export const post = (path, obj, reset) => {
     })
     .catch(e => console.error('submit error:', e));
 };
+
+export const password = 'asdf';

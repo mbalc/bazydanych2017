@@ -27,7 +27,7 @@
   $result = pg_execute($link, "get_squad", array($h));
   $hosts= pg_fetch_all($result);
 
-  $stmt = pg_prepare($link, "get_sets", "SELECT \"punkty gospodarzy\", \"id\" AS \"numer seta\", \"punkty gości\" FROM widok_setow WHERE mecz=$1 ORDER BY \"id\"");
+  $stmt = pg_prepare($link, "get_sets", "SELECT \"punkty gospodarzy\", \"id\", \"punkty gości\" FROM widok_setow WHERE mecz=$1 ORDER BY \"id\"");
   print_r(pg_last_error());
 
   $result = pg_execute($link, "get_sets", array($decoded[id]));

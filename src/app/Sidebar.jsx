@@ -4,7 +4,7 @@ import request from 'axios';
 import { ButtonGroup, Button } from 'reactstrap';
 import API from '../apiPathConfig';
 import Subsite from '../subsite';
-import { checkDeadline } from '../util';
+import { checkDeadline, setter } from '../util';
 import './Sidebar.css';
 
 const publics = [0, 1, 2, 3, 4];
@@ -16,7 +16,10 @@ const sendApi = (path, props) => () => {
     .catch(e => props.package.changeStatus({ lastUpdate: e.toString() }));
 };
 
-const reset = props => sendApi(API.RESET, props);
+const reset = props => () => {
+  sendApi(API.RESET, props)();
+  setter(props, 'LANDING')();
+};
 const close = props => sendApi(API.CLOSE, props);
 const insert = props => sendApi(API.INSERT, props);
 
@@ -31,11 +34,15 @@ const Sidebar = (props) => {
   const access = props.package.authenticated ? protecs : publics;
   const list = access.map(elem => buttons[elem]);
 
+  const { teams } = props.package;
+
   const organizationButtons = props.package.authenticated ? (
     <div>
-      <Button onClick={reset(props)} color="danger" size="sm">
-        Reset danych
-      </Button>
+      {teams && Object.keys(teams) && Object.keys(teams).length ?
+        <Button onClick={reset(props)} color="danger" size="sm">
+          Reset danych
+        </Button> : null
+      }
       <Button onClick={close(props)} disabled={checkDeadline(props)} color="warning" size="sm">
         Zamknij zgłoszenia
       </Button>

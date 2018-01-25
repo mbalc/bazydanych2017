@@ -15,7 +15,8 @@ export default ({
   ADD_PLAYER: path('addPlayer'),
   ADD_MATCH: path('addMatch'),
 
-  BEGIN_MATCH: path('beginMatch'),
+  ADD_SET: path('addSet'),
+  SET_POINTS: path('setPoints'),
 
   SET_SQUADS: path('setSquads'),
 

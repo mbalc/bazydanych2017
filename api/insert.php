@@ -76,4 +76,51 @@
 
   $url = 'http://students.mimuw.edu.pl/~mb385130/bd/projekt2017/static/api/setSquads.php';
   exe($options, $squads, $url);
+
+
+  $url = 'http://students.mimuw.edu.pl/~mb385130/bd/projekt2017/static/api/addSet.php';
+  exe($options, array(array('mecz' => '1'), array('mecz' => '2'), array('mecz' => '3')), $url);
+
+  $url = 'http://students.mimuw.edu.pl/~mb385130/bd/projekt2017/static/api/setPoints.php';
+  exe($options, array(
+    array('mecz' => '1', 'gospodarze' => '21', 'goscie' => '20'),
+    array('mecz' => '2', 'gospodarze' => '21', 'goscie' => '20'),
+    array('mecz' => '3', 'gospodarze' => '21', 'goscie' => '20')), $url);
+
+
+  $url = 'http://students.mimuw.edu.pl/~mb385130/bd/projekt2017/static/api/addSet.php';
+  exe($options, array(array('mecz' => '1'), array('mecz' => '2'), array('mecz' => '3')), $url);
+
+  $url = 'http://students.mimuw.edu.pl/~mb385130/bd/projekt2017/static/api/setPoints.php';
+  exe($options, array(
+    array('mecz' => '1', 'gospodarze' => '21', 'goscie' => '20'),
+    array('mecz' => '2', 'gospodarze' => '21', 'goscie' => '20'),
+    array('mecz' => '3', 'gospodarze' => '21', 'goscie' => '20')), $url);
+
+
+  $url = 'http://students.mimuw.edu.pl/~mb385130/bd/projekt2017/static/api/addSet.php';
+  exe($options, array(array('mecz' => '1'), array('mecz' => '2'), array('mecz' => '3')), $url);
+
+  $url = 'http://students.mimuw.edu.pl/~mb385130/bd/projekt2017/static/api/setPoints.php';
+  exe($options, array(
+    array('mecz' => '1', 'gospodarze' => '21', 'goscie' => '20'),
+    array('mecz' => '2', 'gospodarze' => '21', 'goscie' => '20'),
+    array('mecz' => '3', 'gospodarze' => '21', 'goscie' => '20')), $url);
+
+
+  $url = 'http://students.mimuw.edu.pl/~mb385130/bd/projekt2017/static/api/addSet.php';
+  exe($options, array(array('mecz' => '2'), array('mecz' => '3')), $url);
+
+  $url = 'http://students.mimuw.edu.pl/~mb385130/bd/projekt2017/static/api/setPoints.php';
+  exe($options, array(
+    array('mecz' => '2', 'gospodarze' => '21', 'goscie' => '20'),
+    array('mecz' => '3', 'gospodarze' => '21', 'goscie' => '20')), $url);
+
+
+  $url = 'http://students.mimuw.edu.pl/~mb385130/bd/projekt2017/static/api/addSet.php';
+  exe($options, array(array('mecz' => '2')), $url);
+
+  $url = 'http://students.mimuw.edu.pl/~mb385130/bd/projekt2017/static/api/setPoints.php';
+  exe($options, array(
+    array('mecz' => '2', 'gospodarze' => '21', 'goscie' => '20')), $url);
 ?>

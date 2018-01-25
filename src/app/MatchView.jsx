@@ -26,17 +26,19 @@ const MatchView = (props) => {
 
   const editable = !Object.keys(props.package.squads.sety).length;
 
-  const begin = editable ? (
+  const addSet = (
     <Button
       outline
+      disabled={match.status === 'w trakcie' || match.status === 'rozegrany'}
       color="danger"
-      onClick={() => post(API.BEGIN_MATCH, {
+      onClick={() => post(API.ADD_SET, {
         state: { mecz: matchId },
         props,
       })}
     >
-      Odpal mecz!
-    </Button>) : null;
+      {editable ? 'Odpal mecz!' : 'Dodaj seta'}
+    </Button>
+  );
 
 
   return (
@@ -50,7 +52,7 @@ const MatchView = (props) => {
         </Button>
         {props.package.authenticated ? (
           <div className="neighbour-buttons">
-            {begin}
+            {addSet}
             <SetSquads disabled={!editable} package={props.package} match={matchId} />
           </div>) : null}
       </div>
