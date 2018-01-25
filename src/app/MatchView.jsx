@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'reactstrap';
-import { teamName, teamLabel, setter } from '../util';
+import { teamLabel, setter, makeTeamButton, post } from '../util';
+import API from '../apiPathConfig';
 import Detail from '../components/Detail';
 import List from '../components/List';
+import SetSquads from '../components/modals/SetSquads';
 
 const MatchView = (props) => {
   const matchId = props.package.selMatch;
@@ -11,14 +13,9 @@ const MatchView = (props) => {
 
   const match = Object.assign({}, matches[matchId]);
 
-  const makeTeamButton = id => (
-    <Button className="btn btn-link my-btn-link" onClick={setter(props, 'TEAM_VIEW')}>
-      {teamName(props, id)}
-    </Button>);
-
   const matchWithLinks = {};
-  matchWithLinks.gospodarze = makeTeamButton(match.gospodarze);
-  matchWithLinks.goście = makeTeamButton(match.goście);
+  matchWithLinks.gospodarze = makeTeamButton(props, match.gospodarze);
+  matchWithLinks.goście = makeTeamButton(props, match.goście);
 
   Object.keys(match)
     .filter(el => el !== 'goście' && el !== 'gospodarze')
@@ -27,19 +24,38 @@ const MatchView = (props) => {
   const head = <div>{teamLabel(props, match.gospodarze)} vs. {teamLabel(props, match.goście)}</div>;
   const score = <small>{`${match['wynik gospodarzy']} : ${match['wynik gości']}`}</small>;
 
+  const editable = !Object.keys(props.package.squads.sety).length;
+
+  const begin = editable ? (
+    <Button
+      outline
+      color="danger"
+      onClick={() => post(API.BEGIN_MATCH, {
+        state: { mecz: matchId },
+        props,
+      })}
+    >
+      Odpal mecz!
+    </Button>) : null;
+
 
   return (
     <div>
       <h1>{head}</h1>
-      <h1>{score}</h1>
       <h4>Szczegóły meczu: </h4>
       <Detail content={matchWithLinks} />
       <div className="button-bar-wrapper">
         <Button onClick={setter(props, 'MATCHES')}>
           Wróć do wyboru meczy
         </Button>
+        {props.package.authenticated ? (
+          <div className="neighbour-buttons">
+            {begin}
+            <SetSquads disabled={!editable} package={props.package} match={matchId} />
+          </div>) : null}
       </div>
       <div className="horizontal-separator" />
+      <h1>{score}</h1>
       <div className="button-bar-wrapper">
         <div />
         <div>

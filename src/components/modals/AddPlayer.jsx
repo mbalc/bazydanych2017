@@ -2,8 +2,7 @@ import React from 'react';
 import { FormGroup, Label, Input } from 'reactstrap';
 import PropTypes from 'prop-types';
 import API from '../../apiPathConfig';
-import { checkDeadline, teamsExist, post } from '../../util';
-import Subsite from '../../subsite';
+import { checkDeadline, teamsExist, post, setter } from '../../util';
 import ModalBase from './ModalBase';
 
 const defaultState = ({
@@ -43,7 +42,7 @@ class AddPlayer extends React.Component {
     if (teamsExist(this.props)) {
       post(API.ADD_PLAYER, this, defaultState);
     } else {
-      this.props.package.changeStatus({ activeSite: Subsite.TEAMS });
+      setter(this.props, 'TEAMS')();
     }
   }
 

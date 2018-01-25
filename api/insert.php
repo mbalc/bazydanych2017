@@ -74,6 +74,6 @@
   $url = 'http://students.mimuw.edu.pl/~mb385130/bd/projekt2017/static/api/addMatch.php';
   exe($options, $matches, $url);
 
-  $url = 'http://students.mimuw.edu.pl/~mb385130/bd/projekt2017/static/api/setSquad.php';
+  $url = 'http://students.mimuw.edu.pl/~mb385130/bd/projekt2017/static/api/setSquads.php';
   exe($options, $squads, $url);
 ?>

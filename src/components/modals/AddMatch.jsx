@@ -2,8 +2,7 @@ import React from 'react';
 import { FormGroup, Label, Input } from 'reactstrap';
 import PropTypes from 'prop-types';
 import API from '../../apiPathConfig';
-import { teamsExist, post } from '../../util';
-import Subsite from '../../subsite';
+import { teamsExist, post, setter } from '../../util';
 import ModalBase from './ModalBase';
 
 const defaultState = ({
@@ -56,7 +55,7 @@ class AddMatch extends React.Component {
     if (teamsExist(this.props, 2)) {
       post(API.ADD_MATCH, this, { komentarz: '' });
     } else {
-      this.props.package.changeStatus({ activeSite: Subsite.TEAMS });
+      setter(this.props, 'TEAMS')();
     }
   }
 
@@ -95,6 +94,7 @@ class AddMatch extends React.Component {
       <ModalBase
         buttonLabel="Dodaj mecz"
         submit={this.handleSubmit}
+        color={this.props.color}
       >
         {form}
       </ModalBase>
@@ -104,6 +104,7 @@ class AddMatch extends React.Component {
 
 AddMatch.defaultProps = {
   team: null,
+  color: 'danger',
 };
 
 
@@ -114,6 +115,7 @@ AddMatch.propTypes = {
     fetchAll: PropTypes.func,
   }).isRequired,
   team: PropTypes.string,
+  color: PropTypes.string,
 };
 
 export default AddMatch;

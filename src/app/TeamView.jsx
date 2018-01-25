@@ -12,7 +12,7 @@ const TeamView = (props) => {
   const teamStuff = props.package.teams[teamId] || {};
 
   const addMatch = props.package.authenticated ? (
-    <AddMatch package={props.package} team={teamId} />
+    <AddMatch package={props.package} team={teamId} color="primary" />
   ) : null;
 
   const addMember = props.package.authenticated ? (

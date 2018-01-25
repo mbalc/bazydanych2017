@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'reactstrap';
-import { setter, objFilter, processMatches, teamName } from '../util';
+import { setter, objFilter, processMatches, makeTeamButton, fullName } from '../util';
 import Detail from '../components/Detail';
 import List from '../components/List';
 
@@ -13,25 +13,14 @@ const PlayerView = (props) => {
 
   const team = player.druzyna;
   if (team) {
-    player.druzyna = (
-      <Button className="btn btn-link my-btn-link" onClick={setter(props, 'TEAMS')}>
-        {teamName(props, team)}
-      </Button>);
+    player.druzyna = makeTeamButton(props, team);
   }
-
-  const name = player.imie ? player.imie : null;
-  const surname = player.nazwisko ? player.nazwisko : null;
-
-  let fullName;
-  if (name && surname) fullName = `${name} ${surname}`;
-  else if (name || surname) fullName = name || surname;
-  else fullName = <small>Bezimienny zawodnik</small>;
 
   const comembers = objFilter(props.package.members, el => el.id !== player.id);
 
   return (
     <div>
-      <h1>{fullName}</h1>
+      <h1>{fullName(player)}</h1>
       <h4>Szczegóły gracza: </h4>
       <Detail content={player} />
       <div className="button-bar-wrapper">

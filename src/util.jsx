@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from 'reactstrap';
 import moment from 'moment';
 import request from 'axios';
 import Subsite from './subsite';
@@ -35,6 +36,7 @@ export const teamLabel = (props, id) => {
   if (elem && elem.nazwa) { return elem.nazwa; }
   return (<small>Drużyna bez nazwy</small>);
 };
+
 
 export const setter = (props, path) => (id) => {
   const obj = { activeSite: Subsite[path] };
@@ -75,6 +77,21 @@ export const setter = (props, path) => (id) => {
 
 
 export const teamName = (props, id) => (<div>{id}. {teamLabel(props, id)}</div>);
+
+export const fullName = (player) => {
+  const name = player.imie ? player.imie : null;
+  const surname = player.nazwisko ? player.nazwisko : null;
+
+  if (name && surname) return `${name} ${surname}`;
+  else if (name || surname) return name || surname;
+  return <small>Bezimienny zawodnik</small>;
+};
+
+export const makeTeamButton = (props, id) => (
+  <Button className="btn btn-link my-btn-link" onClick={() => setter(props, 'TEAM_VIEW')(id)}>
+    {teamName(props, id)}
+  </Button>);
+
 
 export const processMatches = (props, matches) => objMap(matches || props.package.matches, (el) => {
   if (!el.goście || !el.gospodarze) return el;

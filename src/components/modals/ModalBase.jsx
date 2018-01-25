@@ -30,7 +30,7 @@ class ModalBase extends React.Component {
     return (
       <div>
         <Button
-          color="danger"
+          color={this.props.color}
           disabled={this.props.disabled}
           onClick={this.toggle}
         >
@@ -68,11 +68,13 @@ ModalBase.defaultProps = {
   className: 'modal-add-entity',
   children: null,
   disabled: false,
+  color: 'danger',
 };
 
 ModalBase.propTypes = {
   buttonLabel: PropTypes.string,
   className: PropTypes.string,
+  color: PropTypes.string,
   submit: PropTypes.func.isRequired,
   children: PropTypes.node,
   disabled: PropTypes.bool,
