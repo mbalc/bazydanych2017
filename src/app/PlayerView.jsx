@@ -1,39 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'reactstrap';
-import Subsite from '../subsite';
-import { objFilter, processMatches, teamName } from '../util';
+import { setter, objFilter, processMatches, teamName } from '../util';
 import Detail from '../components/Detail';
 import List from '../components/List';
 
 const PlayerView = (props) => {
   const playerId = props.package.selPlayer;
-  const returnToPlayers = () => props.package.changeStatus({
-    activeSite: Subsite.PLAYERS,
-  });
 
   const { players } = props.package;
   const player = Object.assign({}, players[playerId]);
 
-  const switchToTeam = () => {
-    props.package.changeStatus({
-      activeSite: Subsite.TEAM_VIEW,
-    });
-    props.package.fetchTeamGames();
-  };
-
-  const setter = (id) => {
-    props.package.changeStatus({
-      activeSite: Subsite.PLAYER_VIEW,
-      selPlayer: id,
-    });
-    props.package.fetchPlayerGames(id);
-  };
-
   const team = player.druzyna;
   if (team) {
     player.druzyna = (
-      <Button className="btn btn-link my-btn-link" onClick={switchToTeam}>
+      <Button className="btn btn-link my-btn-link" onClick={setter(props, 'TEAMS')}>
         {teamName(props, team)}
       </Button>);
   }
@@ -54,7 +35,7 @@ const PlayerView = (props) => {
       <h4>Szczegóły gracza: </h4>
       <Detail content={player} />
       <div className="button-bar-wrapper">
-        <Button onClick={returnToPlayers}>
+        <Button onClick={setter(props, 'PLAYERS')}>
           Wróć do wyboru graczy
         </Button>
       </div>
@@ -62,11 +43,11 @@ const PlayerView = (props) => {
       <div className="button-bar-wrapper">
         <div>
           <h3>Mecze:</h3>
-          <List content={processMatches(props, props.package.playerGames)} />
+          <List content={processMatches(props, props.package.playerGames)} setter={setter(props, 'MATCH_VIEW')} />
         </div>
         <div>
           <h3>Współczłonkowie:</h3>
-          <List content={comembers} setter={setter} />
+          <List content={comembers} setter={setter(props, 'PLAYER_VIEW')} />
         </div>
       </div>
     </div>

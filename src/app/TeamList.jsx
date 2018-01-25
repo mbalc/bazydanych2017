@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import List from '../components/List';
 import AddTeam from '../components/modals/AddTeam';
-import Subsite from '../subsite';
+import { setter } from '../util';
 
 
 const TeamList = (props) => {
@@ -15,20 +15,11 @@ const TeamList = (props) => {
     </div>
   ) : (<div className="horizontal-separator" />);
 
-  const setter = (id) => {
-    props.package.changeStatus({
-      activeSite: Subsite.TEAM_VIEW,
-      selTeam: id,
-    });
-    props.package.fetchMembers(id);
-    props.package.fetchTeamGames(id);
-  };
-
   return (
     <div>
       <h2>Wybierz drużynę: </h2>
       {addButton}
-      <List content={props.package.teams} setter={setter} />
+      <List content={props.package.teams} setter={setter(props, 'TEAM_VIEW')} />
     </div>
   );
 };

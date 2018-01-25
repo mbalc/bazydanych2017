@@ -7,6 +7,7 @@ import Landing from '../app/Landing';
 import Authed from '../app/Authed';
 import Login from '../app/Login';
 import Matches from '../app/MatchList';
+import MatchView from '../app/MatchView';
 import Players from '../app/PlayerList';
 import PlayerView from '../app/PlayerView';
 import Teams from '../app/TeamList';
@@ -30,6 +31,7 @@ function findComponent(state) {
     case Subsite.LOGOUT: return Logout;
     case Subsite.TEAM_VIEW: return TeamView;
     case Subsite.PLAYER_VIEW: return PlayerView;
+    case Subsite.MATCH_VIEW: return MatchView;
     default: return Landing;
   }
 }
@@ -43,6 +45,15 @@ const errorContent = (err) => {
       'Szczegóły błędu': `${err.toString()}\nWięcej szczegółów znajduje się w konsoli developera`,
     },
   };
+};
+
+const overSquad = (cb, el) => {
+  const a = el || {};
+  return ({
+    goście: cb(a.goście),
+    gospodarze: cb(a.gospodarze),
+    sety: cb(a.sety),
+  });
 };
 
 function reindex(array) {
@@ -62,6 +73,7 @@ class app extends React.Component {
     super(props);
     this.fetchAll = this.fetchAll.bind(this);
     this.fetchMembers = this.fetchMembers.bind(this);
+    this.fetchSquads = this.fetchSquads.bind(this);
     this.fetchTeamGames = this.fetchTeamGames.bind(this);
     this.fetchPlayerGames = this.fetchPlayerGames.bind(this);
 
@@ -72,6 +84,7 @@ class app extends React.Component {
       deadline: {},
 
       members: {},
+      squads: overSquad(() => {}),
       teamGames: {},
       playerGames: {},
 
@@ -79,11 +92,13 @@ class app extends React.Component {
       authenticated: false,
 
       activeSite: 0,
-      selTeam: '1',
-      selPlayer: '1',
+      selTeam: '-1',
+      selPlayer: '-1',
+      selMatch: '-1',
 
       fetchAll: this.fetchAll,
       fetchMembers: this.fetchMembers,
+      fetchSquads: this.fetchSquads,
       fetchTeamGames: this.fetchTeamGames,
       fetchPlayerGames: this.fetchPlayerGames,
       changeStatus: newState => this.setState(() => newState),
@@ -101,6 +116,7 @@ class app extends React.Component {
 
   fetchAll() {
     this.fetchMembers();
+    this.fetchSquads();
     this.fetchTeamGames();
     this.fetchPlayerGames();
     this.setState({
@@ -139,10 +155,19 @@ class app extends React.Component {
     this.makeRequest(API.GET_PLAYER_GAMES, 'playerGames', reindex, { id: id || this.state.selPlayer });
   }
 
+  fetchSquads(id) {
+    console.log('fetc', overSquad(() => defaultContent));
+    this.setState({
+      squads: overSquad(() => defaultContent),
+    });
+    this.makeRequest(API.GET_SQUADS, 'squads', a => overSquad(reindex, a), { id: id || this.state.selMatch });
+  }
+
   makeRequest(endpoint, storage, getter, data) {
     const method = data ? 'post' : 'get';
     request[method](endpoint, data)
       .then((res) => {
+        console.log('res', getter(res.data));
         this.setState({ [storage]: getter(res.data) });
       })
       .catch((err) => {

@@ -114,6 +114,15 @@ CREATE VIEW widok_meczy
     JOIN sklad t1 ON t.skladGospodarzy=t1.id
     JOIN sklad t2 ON t.skladGosci=t2.id; 
 
+CREATE VIEW widok_setow
+  AS SELECT
+    p.mecz, p.numerseta as "id", p.punkty as "punkty gospodarzy",
+    q.punkty as "punkty gości"
+  FROM 
+    mecz m 
+    JOIN wynik p ON m.id = p.mecz AND p.sklad = m.skladGospodarzy
+    JOIN wynik q ON m.id = q.mecz AND q.sklad = m.skladGosci AND p.numerseta = q.numerseta;
+
 INSERT INTO termin (termin) VALUES ('5432-01-24 00:31:59');
 
 ALTER TABLE mecz ADD CHECK (skladGosci != skladGospodarzy);

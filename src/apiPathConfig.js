@@ -5,6 +5,7 @@ export default ({
   GET_PLAYERS: path('players'),
   GET_MATCHES: path('matches'),
   GET_MEMBERS: path('members'),
+  GET_SQUADS: path('squads'),
   ADD_TEAM: path('addTeam'),
   ADD_PLAYER: path('addPlayer'),
   ADD_MATCH: path('addMatch'),

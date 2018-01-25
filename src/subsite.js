@@ -16,4 +16,5 @@ export default ({
   AUTHED: 6,
   TEAM_VIEW: 7,
   PLAYER_VIEW: 8,
+  MATCH_VIEW: 9,
 });

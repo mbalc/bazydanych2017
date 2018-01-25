@@ -1,15 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import List from '../components/List';
-import Subsite from '../subsite';
-import { teamsExist, objMap, teamName } from '../util';
+import { teamsExist, objMap, teamName, setter } from '../util';
 import AddPlayer from '../components/modals/AddPlayer';
 
 const process = (props) => {
   const { players } = props.package;
   const exampleElem = players[Object.keys(players)[0]];
   if (!exampleElem || !exampleElem.druzyna || !teamsExist(props)) return players;
-  return objMap(players, el => Object.assign({}, el, { druzyna: teamName(props, el.druzyna) }));
+  return objMap(players, (el) => {
+    const out = Object.assign({}, el);
+    out.druzyna = teamName(props, el.druzyna);
+    return out;
+  });
 };
 
 const PlayerList = (props) => {
@@ -20,25 +23,13 @@ const PlayerList = (props) => {
     </div>
   ) : (<div className="horizontal-separator" />);
 
-  console.log(props.package.players);
   const content = process(props);
-
-  const setter = (id) => {
-    const teamId = props.package.players[id].druzyna;
-    props.package.changeStatus({
-      activeSite: Subsite.PLAYER_VIEW,
-      selPlayer: id,
-      selTeam: teamId,
-    });
-    props.package.fetchPlayerGames(id);
-    props.package.fetchMembers(teamId);
-  };
 
   return (
     <div>
       <h2>Wybierz gracza: </h2>
       {addButton}
-      <List content={content} setter={setter} />
+      <List content={content} setter={setter(props, 'PLAYER_VIEW')} />
     </div>
   );
 };

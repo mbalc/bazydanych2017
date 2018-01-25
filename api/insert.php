@@ -41,7 +41,7 @@
     array('goscie' => '2', 'gospodarze' => '1', 'komentarz' => 'Janusze przegrywają z kretesem!'),
     array('goscie' => '1', 'gospodarze' => '2', 'komentarz' => 'Kolejne zwycięstwo niezwyciężonych polityków!'),
     array('goscie' => '1', 'gospodarze' => '2', 'komentarz' => 'Czy Janusze zdołają się zrewanżować?!'),
-    array('goscie' => '1', 'gospodarze' => '2', 'komentarz' => 'Szykuje się zacięty pojedynek! (po-sześć-ynek?)'),
+    array('goscie' => '2', 'gospodarze' => '1', 'komentarz' => 'Szykuje się zacięty pojedynek! (po-sześć-ynek?)'),
     array('goscie' => '3', 'gospodarze' => '2', 'komentarz' => 'Nie wiadomo czy spotkanie dojdzie do skutku - Januszowie mają problemy ze skompletowaniem składu... Tymczasem - przerwa na reklamę i sprawdzenie, jak wyświetlają się długie napisy we frontendzie!')
   );
 
@@ -49,7 +49,7 @@
     array('mecz' => '1', 'gospodarze' => array('2', '4', '3', '6', '8', '7'), 'goscie' => array('10', '11', '12', '13', '14', '15')),
     array('mecz' => '2', 'gospodarze' => array('10', '11', '12', '13', '14', '15'), 'goscie' => array('1', '2', '3', '6', '8', '7')),
     array('mecz' => '3', 'gospodarze' => array('13', '11', '12', '14', '10', '15'), 'goscie' => array('1', '2', '3', '6', '8', '7')),
-    array('mecz' => '4', 'gospodarze' => array('10', '11', '12', '13', '14', '15'), 'goscie' => array('1', '2', '3', '6', '8', '7'))
+    array('mecz' => '4', 'gospodarze' => array('1', '2', '6', '9', '4', '7'), 'goscie' => array('10', '11', '12', '13', '14', '15'))
   );
 
   function exe($a, $b, $c) {

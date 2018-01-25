@@ -4,7 +4,7 @@ import { Table } from 'reactstrap';
 import './List.css';
 
 function stringToHtml(string) {
-  if (!string) return string;
+  if (!string || !string.split) return string;
   return string.split('\n').map((item, key) => (
     <span key={key}>
       {item}
@@ -15,25 +15,37 @@ function stringToHtml(string) {
 
 const List = (props) => {
   const input = props.content;
-  const onClick = dx => () => props.setter(dx);
-  const keys = Object.keys(input).length
+  const exists = input && Object.keys(input) && Object.keys(input).length;
+
+  const allKeys = exists
     ? Object.keys(input[Object.keys(input)[0]]) // get value of the first key that exists
-      .filter(a => a !== 'id')
+    : [];
+
+  const keys = exists
+    ? allKeys.filter(a => a !== 'id')
     : ['Brak wpisów!'];
 
   const temp = keys.map((el, i) => (<th key={`listKey-${i}`}>{el}</th>));
-  const heads = [(<th scope="col" key="listKey-main-id">id</th>)].concat(temp);
 
-  const content = Object.keys(input).map(dx => (
+  const hasId = allKeys.includes('id');
+
+  const idHead = hasId ? [(<th scope="col" key="listKey-main-id">id</th>)] : [];
+  const first = dx => (hasId ? <th scope="row">{input[dx].id || null}</th> : null);
+
+  const heads = idHead.concat(temp);
+
+  const onClick = dx => () => (hasId ? props.setter(dx) : null);
+
+  const content = exists ? Object.keys(input).map(dx => (
     <tr onClick={onClick(dx)} key={`listRow-${dx}`}>
-      <th scope="row">{input[dx].id || null}</th>
+      {first(dx)}
       {keys.map((key, j) => (
         <td key={`listRow-${dx}-el-${j}`}>
           {stringToHtml(input[dx][key])}
         </td>))
       }
     </tr>
-  ));
+  )) : [];
 
   return (
     <div className="list-container-wrapper">
@@ -58,7 +70,7 @@ List.defaultProps = {
 };
 
 List.propTypes = {
-  content: PropTypes.objectOf(PropTypes.objectOf(PropTypes.string)).isRequired,
+  content: PropTypes.objectOf(PropTypes.objectOf(PropTypes.node)).isRequired,
   setter: PropTypes.func,
 };
 

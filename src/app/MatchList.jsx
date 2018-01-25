@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import List from '../components/List';
-import Subsite from '../subsite';
-import { processMatches } from '../util';
+import { processMatches, setter } from '../util';
 import AddMatch from '../components/modals/AddMatch';
 
 const MatchList = (props) => {
@@ -15,13 +14,6 @@ const MatchList = (props) => {
 
   console.log(props.package.players);
 
-  const setter = (id) => {
-    props.package.changeStatus({
-      activeSite: Subsite.MATCH_VIEW,
-      selMatch: id,
-    });
-  };
-
   const matches = processMatches(props);
 
   console.log('mecz', props.package.matches);
@@ -29,7 +21,7 @@ const MatchList = (props) => {
     <div>
       <h2>Wybierz mecz: </h2>
       {addButton}
-      <List content={matches} setter={setter} />
+      <List content={matches} setter={setter(props, 'MATCH_VIEW')} />
     </div>
   );
 };
@@ -42,6 +34,7 @@ MatchList.propTypes = {
     authenticated: PropTypes.bool.isRequired,
     changeStatus: PropTypes.func,
     fetchMembers: PropTypes.func,
+    fetchSquads: PropTypes.func,
   }).isRequired,
 };
 

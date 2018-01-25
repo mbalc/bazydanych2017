@@ -1,5 +1,7 @@
+import React from 'react';
 import moment from 'moment';
 import request from 'axios';
+import Subsite from './subsite';
 
 export const checkDeadline = props =>
   moment(props.package.deadline) < moment(Date.now()).add(10, 'seconds');
@@ -28,11 +30,54 @@ export const objFilter = (obj, pre) => {
   return out;
 };
 
-export const teamName = (props, id) => (props.package.teams[id]
-  ? `${id}. ${props.package.teams[id].nazwa}`
-  : id);
+export const teamLabel = (props, id) => {
+  const elem = props.package.teams[id];
+  if (elem && elem.nazwa) { return elem.nazwa; }
+  return (<small>Drużyna bez nazwy</small>);
+};
+
+export const setter = (props, path) => (id) => {
+  const obj = { activeSite: Subsite[path] };
+  switch (path) {
+    case 'MATCHES': {
+      obj.selMatch = id;
+      break;
+    }
+    case 'MATCH_VIEW': {
+      obj.selMatch = id;
+      props.package.fetchSquads(id);
+      break;
+    }
+    case 'PLAYERS': {
+      obj.selPlayer = id;
+      break;
+    }
+    case 'PLAYER_VIEW': {
+      obj.selPlayer = id;
+      props.package.fetchMembers(props.package.players[id].druzyna);
+      props.package.fetchPlayerGames(id);
+      break;
+    }
+    case 'TEAMS': {
+      obj.selTeam = id;
+      break;
+    }
+    case 'TEAM_VIEW': {
+      obj.selTeam = id;
+      props.package.fetchMembers(id);
+      props.package.fetchTeamGames(id);
+      break;
+    }
+    default:
+  }
+  props.package.changeStatus(obj);
+};
+
+
+export const teamName = (props, id) => (<div>{id}. {teamLabel(props, id)}</div>);
 
 export const processMatches = (props, matches) => objMap(matches || props.package.matches, (el) => {
+  if (!el.goście || !el.gospodarze) return el;
   const guests = teamName(props, el.goście);
   const hosts = teamName(props, el.gospodarze);
   return Object.assign({}, el, { goście: guests, gospodarze: hosts });
